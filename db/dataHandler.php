@@ -1,17 +1,17 @@
 <?php
-include("./models/person.php");
+include("../models/appointment.php");
 class DataHandler
 {
-    public function queryPersons()
+    public function queryAppointment()
     {
         $res =  $this->getDemoData();
         return $res;
     }
 
-    public function queryPersonById($id)
+    public function queryAppointmentById($id)
     {
         $result = array();
-        foreach ($this->queryPersons() as $val) {
+        foreach ($this->queryAppointment() as $val) {
             if ($val[0]->id == $id) {
                 array_push($result, $val);
             }
@@ -19,11 +19,11 @@ class DataHandler
         return $result;
     }
 
-    public function queryPersonByName($name)
+    public function queryAppointmentByName($name)
     {
         $result = array();
-        foreach ($this->queryPersons() as $val) {
-            if ($val[0]->lastname == $name) {
+        foreach ($this->queryAppointment() as $val) {
+            if ($val[0]->name == $name) {
                 array_push($result, $val);
             }
         }
@@ -33,10 +33,7 @@ class DataHandler
     private static function getDemoData()
     {
         $demodata = [
-            [new Person(1, "Jane", "Doe", "jane.doe@fhtw.at", 1234567, "Central IT")],
-            [new Person(2, "John", "Doe", "john.doe@fhtw.at", 34345654, "Help Desk")],
-            [new Person(3, "baby", "Doe", "baby.doe@fhtw.at", 54545455, "Management")],
-            [new Person(4, "Mike", "Smith", "mike.smith@fhtw.at", 343477778, "Faculty")],
+            [new Appointment(1, "Raphi", "Termin", "01.01.2025", "nigga", "08:00", "17:00")],
         ];
         return $demodata;
     }

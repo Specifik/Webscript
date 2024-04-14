@@ -12,13 +12,14 @@
         integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
 </head>
+
 <body>
     <div id="container">
         <!--info-->
         <div class="row">
             <div class="col-sm"></div>
             <div class="col-sm-9 bg-secondary">
-                <label for="seachfield" class="form-label">Available Names: "Doe" | "Smith"</label>
+                <label for="seachfield" class="form-label">Search Appointments</label>
             </div>
             <div class="col-sm"></div>
         </div>
@@ -28,8 +29,8 @@
             <div class="col-sm"></div>
             <div class="col-sm-9">
                 <div class="input-group">
-                    <input type="text" class="form-control" id="seachfield" placeholder="Search via lastname">
-                    <button type="button" class="btn btn-success" id="btn_Search">Seach</button>
+                    <input type="text" class="form-control" id="seachfield" placeholder="Search via name">
+                    <button type="button" class="btn btn-success" id="btn_Search">Search</button>
                 </div>
             </div>
             <div class="col-sm"></div>
@@ -42,10 +43,20 @@
             <div class="col-sm-9" id="searchResult">
                 <label for="noOfentries" class="form-label">Number of entries found:</label>
                 <input type="text" readonly class="form-control-plaintext" id="noOfentries">
+            </div>
+            <div class="col-sm"></div>
+        </div>
+        <br>
 
+        <!-- add appointment button -->
+        <div class="row">
+            <div class="col-sm"></div>
+            <div class="col-sm-9">
+                <button type="button" class="btn btn-primary" id="btn_Add">New Appointment</button>
             </div>
             <div class="col-sm"></div>
         </div>
     </div>
 </body>
+
 </html>
