@@ -16,7 +16,7 @@ class DataHandler
         return $demodata;
     }
 
-    public function addAppointment($appointment)
+    /*public function addAppointment($appointment)
         {
             $postdata = file_get_contents("php://input");
 
@@ -31,6 +31,6 @@ class DataHandler
                 array_push($res, $appointment);
                 return $res;
         }
-    }
+    }*/
     
 }

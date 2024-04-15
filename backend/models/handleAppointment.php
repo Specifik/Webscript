@@ -1,5 +1,5 @@
 <?php
-include_once("../models/appointment.php");
+include_once("appointment.php");
 include_once("../db/dataHandler.php");
 
 // Check if the form was submitted
