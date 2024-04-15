@@ -1,5 +1,5 @@
 <?php
-include("./models/appointment.php");
+include_once("../models/appointment.php");
 class DataHandler
 {
     public function queryAppointment()
@@ -15,4 +15,22 @@ class DataHandler
         ];
         return $demodata;
     }
+
+    public function addAppointment($appointment)
+        {
+            $postdata = file_get_contents("php://input");
+
+            if(isset($postdata) && !empty($postdata)) {
+                // Decode the JSON data
+                $request = json_decode($postdata);
+
+                // Create a new Appointment object from the request data
+                $appointment = new Appointment($request->id, $request->name, $request->type, $request->date, $request->location, $request->startTime, $request->endTime);
+
+                $res = $this->getDemoData();
+                array_push($res, $appointment);
+                return $res;
+        }
+    }
+    
 }

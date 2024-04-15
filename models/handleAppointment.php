@@ -1,31 +1,30 @@
 <?php
-include("../models/appointment.php");
-include("../db/dataHandler.php");
+include_once("../models/appointment.php");
+include_once("../db/dataHandler.php");
 
-// Überprüfe, ob das Formular gesendet wurde
+// Check if the form was submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Erfasse die Formulardaten
+    // Capture the form data
     $name = $_POST["name"];
-    // Erfasse weitere Formulardaten und führe Validierung durch
+    // Capture more form data and perform validation
 
-    // Erstelle ein neues Terminobjekt
+    // Create a new Appointment object
     $newAppointment = new Appointment(
-        null, // ID (kannst du null lassen, wenn diese automatisch generiert wird)
-        $_POST["name"], // Name des Termins aus dem Formular
-        $_POST["title"], // Titel des Termins aus dem Formular
-        $_POST["date"], // Datum des Termins aus dem Formular
-        $_POST["comment"], // Kommentar des Termins aus dem Formular
-        $_POST["starttime"], // Startzeit des Termins aus dem Formular
-        $_POST["endtime"] // Endzeit des Termins aus dem Formular
+        null, // ID (can be null if it's auto-generated)
+        $_POST["name"], // Name of the appointment from the form
+        $_POST["title"], // Title of the appointment from the form
+        $_POST["date"], // Date of the appointment from the form
+        isset($_POST["comment"]) ? $_POST["comment"] : "", // Comment of the appointment from the form
+        isset($_POST["starttime"]) ? $_POST["starttime"] : "", // Start time of the appointment from the form
+        isset($_POST["endtime"]) ? $_POST["endtime"] : "" // End time of the appointment from the form
     );
 
-    // Füge das neue Terminobjekt zum $demodata Array hinzu
+    // Add the new Appointment object to the $demodata array
     $dataHandler = new DataHandler();
     $demodata = $dataHandler->queryAppointment();
     $demodata[] = [$newAppointment];
 
-    // Speichere das aktualisierte $demodata Array (optional, abhängig von deinem Anwendungsfall)
+    // Save the updated $demodata array (optional, depending on your use case)
 
-    // Optional: Weiterleitung oder Benachrichtigung über den Erfolg des Hinzufügens
+    // Optional: Redirect or notify about the success of the addition
 }
-?>

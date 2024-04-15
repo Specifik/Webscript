@@ -28,7 +28,6 @@ $(document).ready(function () {
                     '<h5 class="card-title">' + appointment.title + '</h5>' +
                     '<h6 class="card-subtitle mb-2 text-muted">' + appointment.date + '</h6>' +
                     '<p class="card-text">Name: ' + appointment.name + '</p>' +
-                    '<p class="card-text">ID: ' + appointment.id + '</p>' +
                     '<p class="card-text">Comment: ' + appointment.comment + '</p>' +
                     '<p class="card-text">Start Time: ' + appointment.starttime + '</p>' +
                     '<p class="card-text">End Time: ' + appointment.endtime + '</p>' +
