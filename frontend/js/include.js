@@ -9,7 +9,7 @@ $(document).ready(function () {
 
     var pages = {
         home: "../frontend/pages/home.html",
-        addAppointment: "../frontend/pages/addAppointment.html"
+        addAppointment: "../frontend/pages/addAppointment.html",
     };
 
     if (page === null) {
