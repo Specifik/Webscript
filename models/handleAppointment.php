@@ -28,4 +28,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Optional: Weiterleitung oder Benachrichtigung über den Erfolg des Hinzufügens
 }
-?>

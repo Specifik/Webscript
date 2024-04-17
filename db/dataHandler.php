@@ -1,6 +1,6 @@
 <?php
-include("db.php");
-include("./models/appointment.php");
+include 'db.php';
+include("../models/appointment.php");
 class DataHandler
 {
     public function queryAppointment()
@@ -22,7 +22,6 @@ class DataHandler
             $demodata[] = new Appointment($row['appID'], $row['name'], $row['title'], 
             $row['date'], $row['comment'], $row['starttime'], $row['endtime']);
         }
-
 
         return $demodata;
     }

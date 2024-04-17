@@ -2,7 +2,7 @@
 $server = "localhost";
 $username = "admin";
 $password = "";
-$database = "hotel_db";
+$database = "webscript";
 
 $conn = mysqli_connect($server, $username, $password, $database);
 
