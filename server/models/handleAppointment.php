@@ -1,5 +1,5 @@
 <?php
-include("../models/appointment.php");
+include("appointment.php");
 include("../db/dataHandler.php");
 
 // Überprüfe, ob das Formular gesendet wurde
