@@ -18,3 +18,6 @@ class Appointment {
         $this->endtime = $etm;
       }
 }
+?>
+
+<?php

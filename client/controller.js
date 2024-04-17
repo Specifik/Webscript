@@ -10,48 +10,48 @@ $(document).ready(function () {
     // Make an AJAX request to fetch appointment data
     $.ajax({
         type: "GET",
-        url: "../serviceHandler.php", // Update the URL to point to your PHP file
+        url: "../serviceHandler.php",
         cache: false,
         data: { method: "queryAppointment" },
         dataType: "json",
         success: function (response) {
-            // Clear the appointmentContainer before adding new data
-            $("#appointmentContainer").empty();
-
-            // Iterate through the response array and append appointment data to the container
             response.forEach(function (appointmentArray) {
-                var appointment = appointmentArray[0]; // Get the Appointment object from the array
-
+                var appointment = appointmentArray[0];
                 var appointmentHtml =
-                    '<div class="col-sm-2">' + // Add the col class here
-                    '<div class="card">' +
-                    '<div class="card-body">' +
-                    '<h5 class="card-title">' +
-                    appointment.title +
-                    "</h5>" +
-                    '<h6 class="card-subtitle mb-2 text-muted">' +
-                    appointment.date +
-                    "</h6>" +
-                    '<p class="card-text">Name: ' +
-                    appointment.name +
-                    "</p>" +
-                    '<p class="card-text">ID: ' +
+                    '<div class="accordion-item">' +
+                    '<h2 class="accordion-header" id="heading' +
                     appointment.id +
-                    "</p>" +
-                    '<p class="card-text">Comment: ' +
+                    '">' +
+                    '<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' +
+                    appointment.id +
+                    '" aria-expanded="true" aria-controls="collapse' +
+                    appointment.id +
+                    '">' +
+                    appointment.title +
+                    " - (" +
+                    appointment.date +
+                    ") for: " +
+                    appointment.name +
+                    "</button>" +
+                    "</h2>" +
+                    '<div id="collapse' +
+                    appointment.id +
+                    '" class="accordion-collapse collapse" aria-labelledby="heading' +
+                    appointment.id +
+                    '" data-bs-parent="#appointmentContainer">' +
+                    '<div class="accordion-body">' +
+                    "<p><strong>Comment:</strong> " +
                     appointment.comment +
                     "</p>" +
-                    '<p class="card-text">Start Time: ' +
+                    "<p><strong>Start Time:</strong> " +
                     appointment.starttime +
                     "</p>" +
-                    '<p class="card-text">End Time: ' +
+                    "<p><strong>End Time:</strong> " +
                     appointment.endtime +
                     "</p>" +
                     "</div>" +
                     "</div>" +
-                    "</div>"; // Close the col div here
-
-                // Append the appointment HTML to the appointmentContainer
+                    "</div>";
                 $("#appointmentContainer").append(appointmentHtml);
             });
         },
@@ -101,9 +101,6 @@ $(document).ready(function () {
                     "</h6>" +
                     '<p class="card-text">Name: ' +
                     formData.name +
-                    "</p>" +
-                    '<p class="card-text">ID: ' +
-                    response.id +
                     "</p>" +
                     '<p class="card-text">Comment: ' +
                     formData.comment +
