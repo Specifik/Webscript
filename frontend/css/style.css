@@ -1,24 +1,3 @@
 h1 {
     text-align: center;
 }
-
-body {
-    padding-top: 70px;
-}
-
-#content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-}
-
-#appointmentContainer .appointment-card {
-    width: 200px;
-    margin: 10px;
-}
-
-.col-sm-2 {
-    margin-top: 50px !important;
-}
-

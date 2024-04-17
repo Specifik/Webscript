@@ -1,8 +1,16 @@
+$(document).ready(function() {
+    $('#btn_Add').click(function() {
+        $.get('../frontend/pages/addAppointment.html', function(data) {
+            $('#container').html(data);
+        });
+    });
+});
+
 $(document).ready(function () {
     // Make an AJAX request to fetch appointment data
     $.ajax({
         type: "GET",
-        url: "../../serviceHandler.php",  // Update the URL to point to your PHP file
+        url: "../serviceHandler.php",  // Update the URL to point to your PHP file
         cache: false,
         data: { method: "queryAppointment" },
         dataType: "json",
@@ -14,7 +22,7 @@ $(document).ready(function () {
             response.forEach(function (appointmentArray) {
                 var appointment = appointmentArray[0];  // Get the Appointment object from the array
 
-                var appointmentHtml = '<div class="col-sm-2 appointment-card">' +  // Add the col class here
+                var appointmentHtml = '<div class="col-sm-2">' +  // Add the col class here
                     '<div class="card">' +
                     '<div class="card-body">' +
                     '<h5 class="card-title">' + appointment.title + '</h5>' +

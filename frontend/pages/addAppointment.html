@@ -1,67 +1,29 @@
+<h1>New Appointment</h1>
 <div class="container">
-    <h1>New Appointment</h1>
-</div>
-<div class="container">
-    <form
-        id="addAppointmentForm"
-        action="../js/addAppointment.js"
-        method="post"
-    >
+    <form id="addAppointmentForm" action="../models/handleAppointment.php" method="post">
         <div class="form-group">
             <div class="container">
                 <label for="name">Name:</label>
-                <input
-                    type="text"
-                    class="form-control"
-                    id="name"
-                    name="name"
-                    required
-                />
+                <input type="text" class="form-control" id="name" name="name" required>
             </div>
             <div class="container">
                 <label for="title" class="form-label">Title:</label>
-                <input
-                    type="text"
-                    class="form-control"
-                    id="title"
-                    name="title"
-                    required
-                />
+                <input type="text" class="form-control" id="title" name="title" required>
             </div>
             <div class="container">
                 <label for="date" class="form-label">Date:</label>
-                <input
-                    type="date"
-                    class="form-control"
-                    id="date"
-                    name="date"
-                    required
-                />
+                <input type="date" class="form-control" id="date" name="date" required>
             </div>
             <div class="container">
                 <label for="time" class="form-label">Starting time:</label>
-                <input
-                    type="time"
-                    class="form-control"
-                    id="time"
-                    name="time"
-                    required
-                />
+                <input type="time" class="form-control" id="time" name="time" required>
             </div>
             <div class="container">
                 <label for="duration" class="form-label">Ending time:</label>
-                <input
-                    type="time"
-                    class="form-control"
-                    id="duration"
-                    name="duration"
-                    required
-                />
+                <input type="time" class="form-control" id="duration" name="duration" required>
             </div>
-            <br />
+            <br>
             <div class="container">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
         </div>
-    </form>
-</div>
