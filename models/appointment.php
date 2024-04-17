@@ -1,6 +1,6 @@
 <?php
 class Appointment {
-    public $appID;
+    public $id;
     public $name;
     public $title;
     public $date;
@@ -9,7 +9,7 @@ class Appointment {
     public $endtime;
 
     function __construct($id, $nm, $ttl, $dt, $cm, $stm, $etm) {
-        $this->appID = $id;
+        $this->id = $id;
         $this->name = $nm;
         $this->title = $ttl;
         $this->date = $dt;
