@@ -8,8 +8,8 @@ $(document).ready(function () {
     // Load specific pages corresponding to the "page" parameter
 
     var pages = {
-        home: "../pages/home.html",
-        addAppointment: "../frontend/pages/addAppointment.html",
+        home: "../main/home.html",
+        addAppointment: "../pages/addAppointment.html",
     };
 
     if (page === null) {

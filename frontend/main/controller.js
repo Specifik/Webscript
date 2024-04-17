@@ -14,7 +14,7 @@ $(document).ready(function () {
             response.forEach(function (appointmentArray) {
                 var appointment = appointmentArray[0];  // Get the Appointment object from the array
 
-                var appointmentHtml = '<div class="col-sm-2">' +  // Add the col class here
+                var appointmentHtml = '<div class="col-sm-2 appointment-card">' +  // Add the col class here
                     '<div class="card">' +
                     '<div class="card-body">' +
                     '<h5 class="card-title">' + appointment.title + '</h5>' +
