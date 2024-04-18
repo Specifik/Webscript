@@ -1,20 +1,15 @@
 <?php
 class Appointment {
     public $id;
-    public $name;
     public $title;
-    public $date;
-    public $comment;
-    public $starttime;
-    public $endtime;
+    public $closingTime;
+    public $availability;
 
-    function __construct($id, $nm, $ttl, $dt, $cm, $stm, $etm) {
+    function __construct($id, $title, $closingTime, $availability) {
         $this->id = $id;
-        $this->name = $nm;
-        $this->title = $ttl;
-        $this->date = $dt;
-        $this->comment = $cm;
-        $this->starttime = $stm;
-        $this->endtime = $etm;
-      }
+        $this->title = $title;
+        $this->closingTime = $closingTime;
+        $this->availability = $availability;
+    }
 }
+?>

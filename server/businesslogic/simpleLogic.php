@@ -12,8 +12,11 @@ class SimpleLogic
     function handleRequest($method, $param)
     {
         switch ($method) {
-            case "queryAppointment":
-                $res = $this->dh->queryAppointment();
+            case "queryAppointments":
+                $res = $this->dh->queryAppointments();
+                break;
+            case "queryAllAppointments":
+                $res = $this->dh->queryAllAppointments($param);
                 break;
             default:
                 $res = null;
