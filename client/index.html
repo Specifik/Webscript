@@ -33,5 +33,27 @@
                 <ul id="optionsList"></ul>
             </div>
         </div>
+
+
+        //TODO: schöner machen
+        <button id="addAppointmentButton">Add Appointment</button>
+
+        <form id="addAppointmentForm" style="display: none;">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title">
+            <label for="date">Date:</label>
+            <input type="date" id="date" name="date">
+            <input type="submit" value="Add Appointment">
+        </form>
+
+        <form id="addOptionForm" style="display: none;">
+            <label for="startTime">Start Time:</label>
+            <input type="time" id="startTime" name="startTime">
+            <label for="endTime">End Time:</label>
+            <input type="time" id="endTime" name="endTime">
+            <label for="comment">Comment:</label>
+            <input type="text" id="comment" name="comment">
+            <input type="submit" value="Add Option">
+        </form>
     </body>
 </html>

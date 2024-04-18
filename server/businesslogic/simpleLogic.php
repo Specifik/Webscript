@@ -21,6 +21,18 @@ class SimpleLogic
             case "queryOptions":
                 $res = $this->dh->queryOptions($param);
                 break;
+            case "addAppointment": //TODO
+                $title = $param['title'];
+                $date = $param['date'];
+                $res = $this->dh->addAppointment($title, $date);
+                break;
+            case "addOption":   //TODO
+                $startTime = $param['startTime'];
+                $endTime = $param['endTime'];
+                $comment = $param['comment'];
+                $appointmentID = $param['appointmentID'];
+                $res = $this->dh->addOption($startTime, $endTime, $comment, $appointmentID);
+                break;
             default:
                 $res = null;
                 break;

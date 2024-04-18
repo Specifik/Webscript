@@ -138,3 +138,59 @@ function displayOptions(options, bodyElement) {
         .text("Submit")
         .appendTo(bodyElement);
 }
+
+//TODO
+$(document).ready(function() {
+    $('#addAppointmentButton').click(function() {
+        console.log('Add Appointment button clicked');
+        $('#addAppointmentForm').show();
+    });
+
+    $('#addAppointmentForm').submit(function(event) {
+        console.log('Add Appointment form submitted');
+        event.preventDefault();
+
+        var title = $('#title').val();
+        var date = $('#date').val();
+
+        console.log('Sending AJAX request', title, date);
+
+        $.ajax({
+            type: "POST",
+            url: "../../server/serviceHandler.php",
+            data: { method: "addAppointment", title: title, date: date },
+            dataType: "json",
+            success: function(response) {
+                console.log('AJAX request successful', response);
+                $('#addAppointmentForm').hide();
+                loaddata();
+            },
+            error: function(error) {
+                console.log('AJAX request failed', error);
+            }
+        });
+    });
+});
+
+//TODO
+$('#addOptionForm').submit(function(event) {
+    event.preventDefault();
+
+    var startTime = $('#startTime').val();
+    var endTime = $('#endTime').val();
+    var comment = $('#comment').val();
+
+    $.ajax({
+        type: "POST",
+        url: "../../server/serviceHandler.php",
+        data: { method: "addOption", startTime: startTime, endTime: endTime, comment: comment, appointmentID: currentAppointmentID },
+        dataType: "json",
+        success: function(response) {
+            $('#addOptionForm').hide();
+            loadOptions(currentAppointmentID);
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
+});

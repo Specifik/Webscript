@@ -64,4 +64,28 @@ class DataHandler
         }
         return $demodata;
     }
+
+    public function addAppointment($title, $date) // TODO
+    {
+        global $conn;
+
+        $sql = "INSERT INTO appointments (title, date) VALUES (?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ss", $title, $date);
+        $stmt->execute();
+
+        return $conn->insert_id;
+    }
+
+    public function addOption($startTime, $endTime, $comment, $appointmentID) //TODO
+    {
+        global $conn;
+
+        $sql = "INSERT INTO options (startTime, endTime, comment, FK_appointmentID) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("sssi", $startTime, $endTime, $comment, $appointmentID);
+        $stmt->execute();
+
+        return $conn->insert_id;
+    }
 }
