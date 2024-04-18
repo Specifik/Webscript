@@ -1,21 +1,21 @@
 <?php
 class Options{
-    public $oppid;
-    public $starttime;
-    public $endtime;
+    public $optionsID;
+    public $startTime;
+    public $endTime;
     public $comment;
     public $expired;
     public $username;
-    public $fk_appid;
+    public $fk_appointmentID;
 
-    function __construct($oppid, $startTime, $endTime, $comment, $expired, $username, $fk_appid)
+    function __construct($optionsID, $startTime, $endTime, $comment, $expired, $username, $fk_appointmentID)
     {
-        $this->oppid = $oppid;
-        $this->starttime = $startTime;
-        $this->endtime = $endTime;
+        $this->optionsID = $optionsID;
+        $this->startTime = $startTime;
+        $this->endTime = $endTime;
         $this->comment = $comment;
         $this->expired = $expired;
         $this->username = $username;
-        $this->fk_appid = $fk_appid;
+        $this->fk_appointmentID = $fk_appointmentID;
     }
 }

@@ -1,13 +1,13 @@
 <?php
-include ("db.php");
+include 'db.php';
 include("./models/appointment.php");
 include("./models/options.php");
+
 class DataHandler
 {
     public function queryAppointments()
     {
-        $res =  $this->getAppointments();
-        return $res;
+        return $this->getAppointments();
     }
 
     public function queryAllAppointments($id)
@@ -15,23 +15,31 @@ class DataHandler
         $result = array();
         foreach ($this->queryAppointments() as $val) {
             array_push($result, array(
-                "name" => $val[0]->title,
+                "name" => $val->title,
             ));
         }
         return $result;
     }
 
-    private static function getAppointments()
+    private function getAppointments()
     {
-        $demodata = [
-            [new Appointment(1, "Termin 1", "21.10.2025")],
-            [new Appointment(2, "Termin 2", "22.10.2025")],
-            [new Appointment(3, "Termin 3", "23.10.2025")],
-        ];
+        global $conn;
+
+        $sql = "SELECT * FROM appointments";
+        $result = $conn->query($sql);
+        $demodata = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $date = new DateTime($row["date"]);
+                $formattedDate = $date->format('d.m.Y');
+                $demodata[] = new Appointment($row["appointmentID"], $row["title"], $formattedDate);
+            }
+        }   
+
         return $demodata;
     }
 
-    private static function getOptionData()
+    private function getOptionData()
     {
         $demodata = [
             [new Options(1, "10:00", "11:00", "testcomment1", "available", "testusername1", 1)],
