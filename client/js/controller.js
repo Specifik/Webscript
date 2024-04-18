@@ -10,12 +10,13 @@ $(document).ready(function () {
     // Make an AJAX request to fetch appointment data
     $.ajax({
         type: "GET",
-        url: "../serviceHandler.php",
+        url: "../../server/serviceHandler.php",
         cache: false,
         data: { method: "queryAppointment" },
         dataType: "json",
         success: function (response) {
             response.forEach(function (appointmentArray) {
+                console.log(response)
                 var appointment = appointmentArray[0];
                 var appointmentHtml =
                     '<div class="accordion-item">' +
