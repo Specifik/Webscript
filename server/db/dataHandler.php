@@ -1,4 +1,5 @@
 <?php
+include ("db.php");
 include("./models/appointment.php");
 include("./models/options.php");
 class DataHandler
