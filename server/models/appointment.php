@@ -1,15 +1,14 @@
 <?php
 class Appointment {
-    public $id;
+    public $appid;
     public $title;
-    public $closingTime;
-    public $availability;
+    public $date;
 
-    function __construct($id, $title, $closingTime, $availability) {
-        $this->id = $id;
+
+    function __construct($appid, $title, $date) {
+        $this->appid = $appid;
         $this->title = $title;
-        $this->closingTime = $closingTime;
-        $this->availability = $availability;
+        $this->date = $date;
+
     }
 }
-?>

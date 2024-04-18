@@ -5,7 +5,7 @@ class DataHandler
 {
     public function queryAppointments()
     {
-        $res =  $this->getDemoData();
+        $res =  $this->getAppointments();
         return $res;
     }
 
@@ -15,19 +15,17 @@ class DataHandler
         foreach ($this->queryAppointments() as $val) {
             array_push($result, array(
                 "name" => $val[0]->title,
-                "closingTime" => $val[0]->closingTime,
-                "expired" => $val[0]->availability
             ));
         }
         return $result;
     }
 
-    private static function getDemoData()
+    private static function getAppointments()
     {
         $demodata = [
-            [new Appointment(1, "Termin 1", "21.10.2025", "available")],
-            [new Appointment(2, "Termin 2", "22.10.2025", "available")],
-            [new Appointment(3, "Termin 3", "23.10.2025", "available")],
+            [new Appointment(1, "Termin 1", "21.10.2025")],
+            [new Appointment(2, "Termin 2", "22.10.2025")],
+            [new Appointment(3, "Termin 3", "23.10.2025")],
         ];
         return $demodata;
     }
@@ -35,9 +33,9 @@ class DataHandler
     private static function getOptionData()
     {
         $demodata = [
-            [new Options(1, "21.10.2025", "10:00", "11:00", 1)],
-            [new Options(2, "21.10.2025", "12:00", "13:00", 1)],
-            [new Options(3, "22.10.2025", "14:00", "15:00", 2)],
+            [new Options(1, "10:00", "11:00", "testcomment1", "available", "testusername1", 1)],
+            [new Options(2, "12:00", "13:00", "testcomment2", "available", "testusername2",1)],
+            [new Options(3, "14:00", "15:00", "testcomment3", "available", "testusername3",2)],
         ];
         return $demodata;
     }

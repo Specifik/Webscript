@@ -11,9 +11,10 @@ function loaddata() {
         dataType: "json",
         success: function (response) {
             displayAppointments(response);
-            $("#noOfentries").val(response.length);
-            $("#searchResult").show(); // Zeige das Ergebnis an, nachdem die Daten geladen wurden
         },
+        error: () => {
+            console.log("Error");
+        }
     });
 }
 
@@ -46,6 +47,9 @@ function loadOptions(appointmentId) {
         success: function (response) {
             displayOptions(response);
         },
+        error: () => {
+            console.log("Error");
+        }
     });
 }
 
