@@ -117,7 +117,9 @@ function displayOptions(options, bodyElement) {
         $("<span>").text(" ").appendTo(optionDiv);
 
         // Radiobutton
-        var radioDiv = $("<div>").addClass("form-check form-check-inline");
+        var radioDiv = $("<div>").addClass(
+            "form-check form-check-inline custom-radio"
+        );
         var radioInput = $("<input>")
             .addClass("form-check-input")
             .attr("type", "radio")
