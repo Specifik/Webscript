@@ -8,6 +8,12 @@ class DataHandler
     public function queryAppointments()
     {
         return $this->getAppointments();
+        
+    }
+    
+    public function queryOptions($id)
+    {
+        return $this->getOptionData($id);
     }
 
     public function queryAllAppointments($id)
@@ -20,6 +26,8 @@ class DataHandler
         }
         return $result;
     }
+
+    
 
     private function getAppointments()
     {
@@ -39,13 +47,21 @@ class DataHandler
         return $demodata;
     }
 
-    private function getOptionData()
+    private function getOptionData($appointmentID)
     {
-        $demodata = [
-            [new Options(1, "10:00", "11:00", "testcomment1", "available", "testusername1", 1)],
-            [new Options(2, "12:00", "13:00", "testcomment2", "available", "testusername2",1)],
-            [new Options(3, "14:00", "15:00", "testcomment3", "available", "testusername3",2)],
-        ];
+        global $conn;
+
+        $sql = "SELECT * FROM options WHERE FK_appointmentID = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $appointmentID);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $demodata = [];
+        if ($result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $demodata[] = new Options($row["optionsID"], $row["startTime"], $row["endTime"], $row["comment"], $row["expired"], $row["username"], $row["FK_appointmentID"]);
+            }
+        }
         return $demodata;
     }
 }
