@@ -2,6 +2,19 @@ h1 {
     text-align: center;
 }
 
-.custom-radio {
-    margin-left: 10px;
+.option-spacing {
+    margin-bottom: 20px;
+}
+
+.selected-by {
+    margin-top: 5px;
+    font-style: italic;
+}
+
+.select-option {
+    margin-top: 5px;
+}
+
+.form-check-label {
+    margin-left: 5px;
 }

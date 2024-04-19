@@ -79,31 +79,11 @@ function loadOptions(appointmentId, bodyElement) {
 function displayOptions(options, bodyElement) {
     bodyElement.empty(); // Leeren des body-Elements, um die vorherigen Optionen zu entfernen
 
-    // Label und Input für den Namen
-    var nameLabel = $("<label>").text("Name:");
-    var nameInput = $("<input>")
-        .attr("type", "text")
-        .attr("name", "name")
-        .addClass("form-control")
-        .appendTo(nameLabel);
-    nameLabel.appendTo(bodyElement);
-
-    // Abstand zwischen Name und Kommentar
-    $("<br>").appendTo(bodyElement);
-
-    // Label und Input für den Kommentar
-    var commentLabel = $("<label>").text("Comment:");
-    var commentInput = $("<input>")
-        .attr("type", "text")
-        .attr("name", "comment")
-        .addClass("form-control")
-        .appendTo(commentLabel);
-    commentLabel.appendTo(bodyElement);
-
+    // Für jede Option
     options.forEach(function (option) {
         var optionDiv = $("<div>").addClass("option");
 
-        // Startzeit und Endzeit in einer Zeile
+        // Startzeit und Endzeit
         var timeDiv = $("<div>").addClass("time-div");
         $("<span>")
             .text("Start Time: " + option.startTime)
@@ -113,20 +93,16 @@ function displayOptions(options, bodyElement) {
             .appendTo(timeDiv);
         timeDiv.appendTo(optionDiv);
 
-        // Abstand zwischen Endzeit und Radiobutton
-        $("<span>").text(" ").appendTo(optionDiv);
-
         // Überprüfen, ob die Option bereits ausgewählt wurde
         if (option.username) {
             // Wenn ja, den Namen anzeigen
-            $("<span>")
+            $("<div>")
+                .addClass("selected-by")
                 .text("Selected by: " + option.username)
                 .appendTo(optionDiv);
         } else {
             // Wenn nicht, den Radiobutton anzeigen
-            var radioDiv = $("<div>").addClass(
-                "form-check form-check-inline custom-radio"
-            );
+            var radioDiv = $("<div>").addClass("select-option");
             var radioInput = $("<input>")
                 .addClass("form-check-input")
                 .attr("type", "radio")
@@ -135,17 +111,61 @@ function displayOptions(options, bodyElement) {
             radioInput.appendTo(radioDiv);
             $("<label>")
                 .addClass("form-check-label")
-                .text("")
-                .appendTo(radioDiv); // Leerzeichen als Text hinzufügen
+                .text("Select")
+                .appendTo(radioDiv); // Label für den Radiobutton hinzufügen
             radioDiv.appendTo(optionDiv);
         }
+
+        // Trennzeichen zwischen den Optionen hinzufügen
+        $("<hr>").appendTo(optionDiv);
 
         optionDiv.appendTo(bodyElement); // Anhängen der Optionen an das body-Element des entsprechenden Akkordeons
     });
 
+    // Leerzeile für den Abstand zwischen Optionen und Eingabefeldern
+    $("<div>").addClass("mb-3").appendTo(bodyElement);
+
+    // Name input
+    var nameDiv = $("<div>").addClass("mb-3");
+    var nameLabel = $("<label>")
+        .addClass("form-label")
+        .attr("for", "nameInput")
+        .text("Name:");
+    var nameInput = $("<input>")
+        .addClass("form-control")
+        .attr("type", "text")
+        .attr("id", "nameInput")
+        .attr("name", "name")
+        .attr("placeholder", "Enter your name");
+    nameLabel.appendTo(nameDiv);
+    nameInput.appendTo(nameDiv);
+    nameDiv.appendTo(bodyElement);
+
+    // Leerzeile für den Abstand zwischen Name und Kommentar
+    $("<div>").addClass("mb-3").appendTo(bodyElement);
+
+    // Comment textarea
+    var commentDiv = $("<div>").addClass("mb-3");
+    var commentLabel = $("<label>")
+        .addClass("form-label")
+        .attr("for", "commentTextarea")
+        .text("Comment:");
+    var commentTextarea = $("<textarea>")
+        .addClass("form-control")
+        .attr("id", "commentTextarea")
+        .attr("name", "comment")
+        .attr("rows", "3")
+        .attr("placeholder", "Enter your comment");
+    commentLabel.appendTo(commentDiv);
+    commentTextarea.appendTo(commentDiv);
+    commentDiv.appendTo(bodyElement);
+
+    // Leerzeile für den Abstand zwischen Kommentar und Submit-Button
+    $("<div>").addClass("mb-3").appendTo(bodyElement);
+
     // Submit-Button
     var submitButton = $("<button>")
-        .addClass("btn btn-primary mt-3")
+        .addClass("btn btn-primary")
         .text("Submit")
         .appendTo(bodyElement);
 }
@@ -169,8 +189,9 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: "../../server/serviceHandler.php",
-            data: { method: "addAppointment",
-            param: JSON.stringify({ title: title, date: date }) 
+            data: {
+                method: "addAppointment",
+                param: JSON.stringify({ title: title, date: date }),
             },
             dataType: "json",
             success: function (response) {
