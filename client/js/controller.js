@@ -195,7 +195,7 @@ $(document).ready(function () {
     });
 
 
-    //TODO: Logik für Eingabe Zeit/Datum / Eingabe vom Expiry Date / Prüfen ob Appointment Expired/ 
+    //TODO: Logik für Eingabe Zeit/Datum / Eingabe vom Ablaufdatum bei Appointments / Prüfen ob Appointment Expired/ 
     $(document).on('submit', '#addOptionForm', function(event) {
         event.preventDefault();
 
