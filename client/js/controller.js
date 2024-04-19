@@ -82,7 +82,7 @@ function displayOptions(options, bodyElement) {
     options.forEach(function (option) {
         var optionDiv = $("<div>").addClass("option");
 
-        // Startzeit und Endzeit in einer Zeile
+        // Startzeit und Endzeit
         var timeDiv = $("<div>").addClass("time-div");
         $("<span>")
             .text("Start Time: " + option.startTime)
@@ -91,9 +91,6 @@ function displayOptions(options, bodyElement) {
             .text(" | End Time: " + option.endTime)
             .appendTo(timeDiv);
         timeDiv.appendTo(optionDiv);
-
-        // Abstand zwischen Endzeit und Radiobutton
-        $("<span>").text(" ").appendTo(optionDiv);
 
         // Überprüfen, ob die Option bereits ausgewählt wurde
         if (option.username) {
@@ -106,9 +103,7 @@ function displayOptions(options, bodyElement) {
                 .appendTo(optionDiv);
         } else {
             // Wenn nicht, den Radiobutton anzeigen
-            var radioDiv = $("<div>").addClass(
-                "form-check form-check-inline custom-radio"
-            );
+            var radioDiv = $("<div>").addClass("select-option");
             var radioInput = $("<input>")
                 .addClass("form-check-input")
                 .attr("type", "radio")
@@ -117,10 +112,13 @@ function displayOptions(options, bodyElement) {
             radioInput.appendTo(radioDiv);
             $("<label>")
                 .addClass("form-check-label")
-                .text("")
-                .appendTo(radioDiv); // Leerzeichen als Text hinzufügen
+                .text("Select")
+                .appendTo(radioDiv); // Label für den Radiobutton hinzufügen
             radioDiv.appendTo(optionDiv);
         }
+
+        // Trennzeichen zwischen den Optionen hinzufügen
+        $("<hr>").appendTo(optionDiv);
 
         optionDiv.appendTo(bodyElement); // Anhängen der Optionen an das body-Element des entsprechenden Akkordeons
 
@@ -147,7 +145,7 @@ function displayOptions(options, bodyElement) {
 
     // Submit-Button
     var submitButton = $("<button>")
-        .addClass("btn btn-primary mt-3")
+        .addClass("btn btn-primary")
         .text("Submit")
         .appendTo(bodyElement);
 }
