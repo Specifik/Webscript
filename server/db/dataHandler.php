@@ -40,7 +40,7 @@ class DataHandler
             while ($row = $result->fetch_assoc()) {
                 $date = new DateTime($row["date"]);
                 $formattedDate = $date->format('d.m.Y');
-                $demodata[] = new Appointment($row["appointmentID"], $row["title"], $formattedDate);
+                $demodata[] = new Appointment($row["appointmentID"], $row["title"], $formattedDate, $row["expiry_date"]);
             }
         }   
 
@@ -59,7 +59,7 @@ class DataHandler
         $demodata = [];
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
-                $demodata[] = new Options($row["optionsID"], $row["startTime"], $row["endTime"], $row["comment"], $row["expired"], $row["username"], $row["FK_appointmentID"]);
+                $demodata[] = new Options($row["optionsID"], $row["startTime"], $row["endTime"], $row["comment"], $row["taken"], $row["username"], $row["FK_appointmentID"]);
             }
         }
         return $demodata;
@@ -97,7 +97,7 @@ class DataHandler
     {
         global $conn;
 
-        $sql = "UPDATE options SET username = ?, comment = ?, expired = 1 WHERE optionsID = ?";
+        $sql = "UPDATE options SET username = ?, comment = ?, taken = 1 WHERE optionsID = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssi", $username, $comment, $optionID);
         $stmt->execute();
