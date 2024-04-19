@@ -74,16 +74,20 @@ class DataHandler
         $stmt->bind_param("ss", $title, $date);
         $stmt->execute();
 
-        return $conn->insert_id;
+        // Get the ID of the newly inserted appointment
+        $appointmentID = $conn->insert_id;
+
+        // Return the appointmentID in the response
+        return array("appointmentID" => $appointmentID);
     }
 
-    public function addOption($startTime, $endTime, $comment, $appointmentID) //TODO
+    public function addOption($startTime, $endTime, $FK_appointmentID) //TODO
     {
         global $conn;
 
-        $sql = "INSERT INTO options (startTime, endTime, comment, FK_appointmentID) VALUES (?, ?, ?, ?)";
+        $sql = "INSERT INTO options (startTime, endTime, FK_appointmentID) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssi", $startTime, $endTime, $comment, $appointmentID);
+        $stmt->bind_param("ssi", $startTime, $endTime, $FK_appointmentID);
         $stmt->execute();
 
         return $conn->insert_id;

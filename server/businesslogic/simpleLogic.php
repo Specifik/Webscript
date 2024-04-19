@@ -31,9 +31,8 @@ class SimpleLogic
             case "addOption":   //TODO
                 $startTime = $param['startTime'];
                 $endTime = $param['endTime'];
-                $comment = $param['comment'];
-                $appointmentID = $param['appointmentID'];
-                $res = $this->dh->addOption($startTime, $endTime, $comment, $appointmentID);
+                $FK_appointmentID = $param['FK_appointmentID'];
+                $res = $this->dh->addOption($startTime, $endTime, $FK_appointmentID);
                 break;
             case "chooseOption":
                 $optionID = $param['optionID'];

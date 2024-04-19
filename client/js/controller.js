@@ -150,8 +150,9 @@ function displayOptions(options, bodyElement) {
         .appendTo(bodyElement);
 }
 
-//TODO
 $(document).ready(function () {
+    loaddata();
+
     $("#addAppointmentButton").click(function () {
         console.log("Add Appointment button clicked");
         $("#addAppointmentForm").show();
@@ -178,42 +179,69 @@ $(document).ready(function () {
                 console.log("AJAX request successful", response);
                 $("#addAppointmentForm").hide();
                 loaddata();
+
+                // Reset the title and date inputs
+                $("#title").val("");
+                $("#date").val("");
+
+                // Show the addOptionForm and update its visibility
+                $("#addOptionForm").show();
+                currentAppointmentID = response.appointmentID;
+                // Clear any previous options from the form
+                $("#optionsList").empty();
+                // Show the Done button
+                $("#doneButton").show();
             },
             error: function (error) {
                 console.log("AJAX request failed", error);
             },
         });
     });
-});
 
-//TODO
-$("#addOptionForm").submit(function (event) {
-    event.preventDefault();
+    $(document).on('submit', '#addOptionForm', function(event) {
+        event.preventDefault();
 
-    var startTime = $("#startTime").val();
-    var endTime = $("#endTime").val();
-    var comment = $("#comment").val();
+        var startTime = $("#startTime").val();
+        var endTime = $("#endTime").val();
 
-    $.ajax({
-        type: "POST",
-        url: "../../server/serviceHandler.php",
-        data: {
-            method: "addOption",
-            startTime: startTime,
-            endTime: endTime,
-            comment: comment,
-            appointmentID: currentAppointmentID,
-        },
-        dataType: "json",
-        success: function (response) {
-            $("#addOptionForm").hide();
-            loadOptions(currentAppointmentID);
-        },
-        error: function (error) {
-            console.log(error);
-        },
+        $.ajax({
+            type: "POST",
+            url: "../../server/serviceHandler.php",
+            data: {
+                method: "addOption",
+                param: JSON.stringify({
+                    startTime: startTime,
+                    endTime: endTime,
+                    FK_appointmentID: currentAppointmentID,
+                }),
+            },
+            dataType: "json",
+            success: function (response) {
+                // Add the added option to the form
+                $("#optionsList").append("<li>" + startTime + " - " + endTime + "</li>");
+
+                // Clear input fields for next option
+                $("#startTime").val('');
+                $("#endTime").val('');
+            },
+            error: function (error) {
+                console.log(error);
+            },
+        });
+    });
+    // Handler for "Done" button to submit all options
+    $("#doneButton").click(function() {
+        // Optionally, perform final validation or actions before submitting all options
+        console.log("All options submitted");
+        // Hide the addOptionForm
+        $("#addOptionForm").hide();
+        // Hide the Done button
+        $("#doneButton").hide();
+        // Hide the options list container
+        $("#searchResult").hide();
     });
 });
+
 
 $(document).ready(function () {
     loaddata();
