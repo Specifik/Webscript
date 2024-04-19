@@ -116,18 +116,29 @@ function displayOptions(options, bodyElement) {
         // Abstand zwischen Endzeit und Radiobutton
         $("<span>").text(" ").appendTo(optionDiv);
 
-        // Radiobutton
-        var radioDiv = $("<div>").addClass(
-            "form-check form-check-inline custom-radio"
-        );
-        var radioInput = $("<input>")
-            .addClass("form-check-input")
-            .attr("type", "radio")
-            .attr("name", "selectedOption")
-            .val(option.optionsID);
-        radioInput.appendTo(radioDiv);
-        $("<label>").addClass("form-check-label").text("").appendTo(radioDiv); // Leerzeichen als Text hinzufügen
-        radioDiv.appendTo(timeDiv);
+        // Überprüfen, ob die Option bereits ausgewählt wurde
+        if (option.username) {
+            // Wenn ja, den Namen anzeigen
+            $("<span>")
+                .text("Selected by: " + option.username)
+                .appendTo(optionDiv);
+        } else {
+            // Wenn nicht, den Radiobutton anzeigen
+            var radioDiv = $("<div>").addClass(
+                "form-check form-check-inline custom-radio"
+            );
+            var radioInput = $("<input>")
+                .addClass("form-check-input")
+                .attr("type", "radio")
+                .attr("name", "selectedOption")
+                .val(option.optionsID);
+            radioInput.appendTo(radioDiv);
+            $("<label>")
+                .addClass("form-check-label")
+                .text("")
+                .appendTo(radioDiv); // Leerzeichen als Text hinzufügen
+            radioDiv.appendTo(optionDiv);
+        }
 
         optionDiv.appendTo(bodyElement); // Anhängen der Optionen an das body-Element des entsprechenden Akkordeons
     });
@@ -140,57 +151,120 @@ function displayOptions(options, bodyElement) {
 }
 
 //TODO
-$(document).ready(function() {
-    $('#addAppointmentButton').click(function() {
-        console.log('Add Appointment button clicked');
-        $('#addAppointmentForm').show();
+$(document).ready(function () {
+    $("#addAppointmentButton").click(function () {
+        console.log("Add Appointment button clicked");
+        $("#addAppointmentForm").show();
     });
 
-    $('#addAppointmentForm').submit(function(event) {
-        console.log('Add Appointment form submitted');
+    $("#addAppointmentForm").submit(function (event) {
+        console.log("Add Appointment form submitted");
         event.preventDefault();
 
-        var title = $('#title').val();
-        var date = $('#date').val();
+        var title = $("#title").val();
+        var date = $("#date").val();
 
-        console.log('Sending AJAX request', title, date);
+        console.log("Sending AJAX request", title, date);
 
         $.ajax({
             type: "POST",
             url: "../../server/serviceHandler.php",
             data: { method: "addAppointment", title: title, date: date },
             dataType: "json",
-            success: function(response) {
-                console.log('AJAX request successful', response);
-                $('#addAppointmentForm').hide();
+            success: function (response) {
+                console.log("AJAX request successful", response);
+                $("#addAppointmentForm").hide();
                 loaddata();
             },
-            error: function(error) {
-                console.log('AJAX request failed', error);
-            }
+            error: function (error) {
+                console.log("AJAX request failed", error);
+            },
         });
     });
 });
 
 //TODO
-$('#addOptionForm').submit(function(event) {
+$("#addOptionForm").submit(function (event) {
     event.preventDefault();
 
-    var startTime = $('#startTime').val();
-    var endTime = $('#endTime').val();
-    var comment = $('#comment').val();
+    var startTime = $("#startTime").val();
+    var endTime = $("#endTime").val();
+    var comment = $("#comment").val();
 
     $.ajax({
         type: "POST",
         url: "../../server/serviceHandler.php",
-        data: { method: "addOption", startTime: startTime, endTime: endTime, comment: comment, appointmentID: currentAppointmentID },
+        data: {
+            method: "addOption",
+            startTime: startTime,
+            endTime: endTime,
+            comment: comment,
+            appointmentID: currentAppointmentID,
+        },
         dataType: "json",
-        success: function(response) {
-            $('#addOptionForm').hide();
+        success: function (response) {
+            $("#addOptionForm").hide();
             loadOptions(currentAppointmentID);
         },
-        error: function(error) {
+        error: function (error) {
             console.log(error);
-        }
+        },
     });
 });
+
+$(document).ready(function () {
+    loaddata();
+
+    // Klickereignis für den Submit-Button
+    $("#accordion").on("click", ".btn-primary", function () {
+        var bodyElement = $(this)
+            .closest(".accordion-item")
+            .find(".accordion-body");
+        var selectedOption = bodyElement
+            .find("input[name='selectedOption']:checked")
+            .val();
+        var userName = bodyElement.find("input[name='name']").val();
+        var userComment = bodyElement.find("input[name='comment']").val();
+
+        // Wenn keine Option ausgewählt wurde
+        if (!selectedOption) {
+            alert("Please select an option.");
+            return; // Beenden Sie die Funktion, um zu verhindern, dass das Formular abgesendet wird
+        }
+
+        // Wenn der Benutzername nicht eingegeben wurde
+        if (!userName) {
+            alert("Please enter your name.");
+            return; // Beenden Sie die Funktion, um zu verhindern, dass das Formular abgesendet wird
+        }
+
+        // Daten an den Server senden
+        chooseOption(selectedOption, userName, userComment);
+    });
+});
+
+function chooseOption(optionID, userName, userComment) {
+    $.ajax({
+        type: "POST",
+        url: "../../server/serviceHandler.php",
+        data: {
+            method: "chooseOption",
+            param: {
+                optionID: optionID,
+                username: userName,
+                comment: userComment,
+            },
+        },
+        dataType: "json",
+        success: function (response) {
+            // Erfolgreiche Antwort verarbeiten
+            alert("Appointment successfully choosen!");
+            // Seite neu laden
+            location.reload();
+        },
+        error: function (error) {
+            console.log(error);
+            alert("Failed to choose Option. Please try again.");
+        },
+    });
+}

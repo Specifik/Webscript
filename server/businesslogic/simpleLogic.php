@@ -33,6 +33,12 @@ class SimpleLogic
                 $appointmentID = $param['appointmentID'];
                 $res = $this->dh->addOption($startTime, $endTime, $comment, $appointmentID);
                 break;
+            case "chooseOption":
+                $optionID = $param['optionID'];
+                $username = $param['username'];
+                $comment = $param['comment'];
+                $res = $this->dh->chooseOption($optionID, $username, $comment);
+                break;
             default:
                 $res = null;
                 break;

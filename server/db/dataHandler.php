@@ -88,4 +88,21 @@ class DataHandler
 
         return $conn->insert_id;
     }
+
+    public function chooseOption($optionID, $username, $comment)
+    {
+        global $conn;
+
+        $sql = "UPDATE options SET username = ?, comment = ?, expired = 1 WHERE optionsID = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssi", $username, $comment, $optionID);
+        $stmt->execute();
+
+        // Überprüfen, ob das Update erfolgreich war
+        if ($stmt->affected_rows > 0) {
+            return "Option chosen successfully.";
+        } else {
+            return "Failed to choose option.";
+        }
+    }
 }
