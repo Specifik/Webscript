@@ -184,13 +184,9 @@ $(document).ready(function () {
                 $("#title").val("");
                 $("#date").val("");
 
-                // Show the addOptionForm and update its visibility
-                $("#addOptionForm").show();
+                // Show the addOptionForm in a modal
+                $("#addOptionModal").modal("show");
                 currentAppointmentID = response.appointmentID;
-                // Clear any previous options from the form
-                $("#optionsList").empty();
-                // Show the Done button
-                $("#doneButton").show();
             },
             error: function (error) {
                 console.log("AJAX request failed", error);
@@ -198,7 +194,7 @@ $(document).ready(function () {
         });
     });
 
-    $(document).on('submit', '#addOptionForm', function(event) {
+    $(document).on("submit", "#addOptionForm", function (event) {
         event.preventDefault();
 
         var startTime = $("#startTime").val();
@@ -217,31 +213,26 @@ $(document).ready(function () {
             },
             dataType: "json",
             success: function (response) {
-                // Add the added option to the form
-                $("#optionsList").append("<li>" + startTime + " - " + endTime + "</li>");
-
                 // Clear input fields for next option
-                $("#startTime").val('');
-                $("#endTime").val('');
+                $("#startTime").val("");
+                $("#endTime").val("");
             },
             error: function (error) {
                 console.log(error);
             },
         });
     });
+
     // Handler for "Done" button to submit all options
-    $("#doneButton").click(function() {
+    $("#doneButton").click(function () {
         // Optionally, perform final validation or actions before submitting all options
         console.log("All options submitted");
-        // Hide the addOptionForm
-        $("#addOptionForm").hide();
+        // Hide the addOptionForm modal
+        $("#addOptionModal").modal("hide");
         // Hide the Done button
         $("#doneButton").hide();
-        // Hide the options list container
-        $("#searchResult").hide();
     });
 });
-
 
 $(document).ready(function () {
     loaddata();
