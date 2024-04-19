@@ -201,6 +201,11 @@ $(document).ready(function () {
 
         var startTime = $("#startTime").val();
         var endTime = $("#endTime").val();
+        
+        if (!startTime || !endTime) {
+            alert('Please fill in both the start time and end time.');
+            return;
+        }
 
         $.ajax({
             type: "POST",
@@ -216,8 +221,8 @@ $(document).ready(function () {
             dataType: "json",
             success: function (response) {
                 // Clear input fields for next option
-                $("#startTime").val("");
-                $("#endTime").val("");
+                $("#startTime").val('');
+                $("#endTime").val('');
             },
             error: function (error) {
                 console.log(error);
