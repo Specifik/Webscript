@@ -79,27 +79,6 @@ function loadOptions(appointmentId, bodyElement) {
 function displayOptions(options, bodyElement) {
     bodyElement.empty(); // Leeren des body-Elements, um die vorherigen Optionen zu entfernen
 
-    // Label und Input für den Namen
-    var nameLabel = $("<label>").text("Name:");
-    var nameInput = $("<input>")
-        .attr("type", "text")
-        .attr("name", "name")
-        .addClass("form-control")
-        .appendTo(nameLabel);
-    nameLabel.appendTo(bodyElement);
-
-    // Abstand zwischen Name und Kommentar
-    $("<br>").appendTo(bodyElement);
-
-    // Label und Input für den Kommentar
-    var commentLabel = $("<label>").text("Comment:");
-    var commentInput = $("<input>")
-        .attr("type", "text")
-        .attr("name", "comment")
-        .addClass("form-control")
-        .appendTo(commentLabel);
-    commentLabel.appendTo(bodyElement);
-
     options.forEach(function (option) {
         var optionDiv = $("<div>").addClass("option");
 
@@ -118,9 +97,12 @@ function displayOptions(options, bodyElement) {
 
         // Überprüfen, ob die Option bereits ausgewählt wurde
         if (option.username) {
-            // Wenn ja, den Namen anzeigen
+            // Wenn ja, den Namen und den Kommentar anzeigen
             $("<span>")
                 .text("Selected by: " + option.username)
+                .appendTo(optionDiv);
+            $("<span>")
+                .text(" | Comment: " + option.comment)
                 .appendTo(optionDiv);
         } else {
             // Wenn nicht, den Radiobutton anzeigen
@@ -141,7 +123,27 @@ function displayOptions(options, bodyElement) {
         }
 
         optionDiv.appendTo(bodyElement); // Anhängen der Optionen an das body-Element des entsprechenden Akkordeons
+
+        // Trennzeichen hinzufügen
+        $("<hr>").appendTo(bodyElement);
     });
+
+    // Eingabe für Name und Kommentar vor dem Submit-Button anzeigen
+    $("<label>").text("Name:").appendTo(bodyElement);
+    $("<input>")
+        .attr("type", "text")
+        .attr("name", "name")
+        .addClass("form-control")
+        .appendTo(bodyElement);
+    $("<label>").text("Comment:").appendTo(bodyElement);
+    $("<input>")
+        .attr("type", "text")
+        .attr("name", "comment")
+        .addClass("form-control")
+        .appendTo(bodyElement);
+
+    // Abstand zwischen Kommentar und Submit-Button
+    $("<br>").appendTo(bodyElement);
 
     // Submit-Button
     var submitButton = $("<button>")
@@ -169,8 +171,9 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: "../../server/serviceHandler.php",
-            data: { method: "addAppointment",
-            param: JSON.stringify({ title: title, date: date }) 
+            data: {
+                method: "addAppointment",
+                param: JSON.stringify({ title: title, date: date }),
             },
             dataType: "json",
             success: function (response) {
@@ -251,11 +254,11 @@ function chooseOption(optionID, userName, userComment) {
         url: "../../server/serviceHandler.php",
         data: {
             method: "chooseOption",
-            param: {
+            param: JSON.stringify({
                 optionID: optionID,
                 username: userName,
                 comment: userComment,
-            },
+            }),
         },
         dataType: "json",
         success: function (response) {
