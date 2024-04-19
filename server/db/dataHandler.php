@@ -65,7 +65,7 @@ class DataHandler
         return $demodata;
     }
 
-    public function addAppointment($title, $date) // TODO
+    public function addAppointment($title, $date)
     {
         global $conn;
 

@@ -11,6 +11,8 @@ class SimpleLogic
 
     function handleRequest($method, $param)
     {
+        $param = json_decode($param, true);
+
         switch ($method) {
             case "queryAppointments":
                 $res = $this->dh->queryAppointments();
@@ -21,7 +23,7 @@ class SimpleLogic
             case "queryOptions":
                 $res = $this->dh->queryOptions($param);
                 break;
-            case "addAppointment": //TODO
+            case "addAppointment":
                 $title = $param['title'];
                 $date = $param['date'];
                 $res = $this->dh->addAppointment($title, $date);

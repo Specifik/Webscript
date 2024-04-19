@@ -169,7 +169,9 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: "../../server/serviceHandler.php",
-            data: { method: "addAppointment", title: title, date: date },
+            data: { method: "addAppointment",
+            param: JSON.stringify({ title: title, date: date }) 
+            },
             dataType: "json",
             success: function (response) {
                 console.log("AJAX request successful", response);
