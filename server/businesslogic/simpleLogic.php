@@ -29,7 +29,7 @@ class SimpleLogic
                 $expiry_date = $param['expiry_date'];
                 $res = $this->dh->addAppointment($title, $date, $expiry_date);
                 break;
-            case "addOption":   //TODO
+            case "addOption":
                 $startTime = $param['startTime'];
                 $endTime = $param['endTime'];
                 $FK_appointmentID = $param['FK_appointmentID'];

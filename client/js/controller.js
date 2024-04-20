@@ -28,7 +28,7 @@ function displayAppointments(appointments) {
         var card = $("<div>").addClass("accordion-item");
         var header = $("<h2>").addClass("accordion-header").appendTo(card);
         var button = $("<button>")
-            .addClass("accordion-button")
+        .addClass("accordion-button d-flex justify-content-between")
             .attr({
                 type: "button",
                 "data-bs-toggle": "collapse",
@@ -36,9 +36,8 @@ function displayAppointments(appointments) {
                 "aria-expanded": "false",
                 "aria-controls": "collapse-" + appointment.appointmentID,
             })
-            .text(appointment.title + " - Date: " + appointment.date + " Expiry-Date: " + appointment.expiry_date)
+            .html("<div class='title'><strong>" + appointment.title + "</strong></div><div class='date'>Date: " + appointment.date + "</div><div class='expiry-date'>Expiry Date: " + appointment.expiry_date + "</div>")
             .appendTo(header);
-
         var collapseDiv = $("<div>")
             .addClass("accordion-collapse collapse")
             .attr({
@@ -98,9 +97,11 @@ function displayOptions(options, bodyElement) {
             $("<span>")
                 .text("Selected by: " + option.username)
                 .appendTo(optionDiv);
+        if(option.comment) {
             $("<span>")
                 .text(" | Comment: " + option.comment)
                 .appendTo(optionDiv);
+            }
         } else {
             // Wenn nicht, den Radiobutton anzeigen
             var radioDiv = $("<div>").addClass("select-option");
@@ -122,8 +123,6 @@ function displayOptions(options, bodyElement) {
 
         optionDiv.appendTo(bodyElement); // Anhängen der Optionen an das body-Element des entsprechenden Akkordeons
 
-        // Trennzeichen hinzufügen
-        $("<hr>").appendTo(bodyElement);
     });
 
     // Eingabe für Name und Kommentar vor dem Submit-Button anzeigen
@@ -224,14 +223,19 @@ $(document).ready(function () {
             },
             dataType: "json",
             success: function (response) { 
-                // Clear input fields for next option
-                $("#startTime").val('');
-                $("#endTime").val('');
-                // Update optionsPreview textarea
-                var optionsPreview = $("#optionsPreview");
-                var currentContent = optionsPreview.val();
-                optionCount += 1;
-                optionsPreview.val(currentContent + "\n" + "Option " + optionCount + ": Start Time: " + startTime + ", End Time: " + endTime); 
+                // Check if the option was successfully added
+            if (response === "Option added successfully") {
+                    // Clear input fields for next option
+                    $("#startTime").val('');
+                    $("#endTime").val('');
+
+                    // Update optionsPreview textarea
+                    var optionsPreview = $("#optionsPreview");
+                    var currentContent = optionsPreview.val();
+                    optionCount += 1;
+                    optionsPreview.val(currentContent + "\n" + "Option " + optionCount + ": Start Time: " + startTime + ", End Time: " + endTime);
+                    console.log("Option added successfully");
+                } 
             },
             error: function (error) {
                 console.log(error);
@@ -239,22 +243,24 @@ $(document).ready(function () {
         });
     });
     
-    $(document).on('click', '.btn-secondary', function(event) {
-        $("#optionsPreview").val('');
-        optionCount = 0;
-    });
+
     // Handler for "Done" button to submit all options
-    $("#doneButton").click(function () {
-        // Optionally, perform final validation or actions before submitting all options
-        console.log("All options submitted");
-        // Hide the addOptionForm modal
-        $("#addOptionModal").modal("hide");
-        // Hide the Done button
-        $("#doneButton").hide();
+    $(document).on('click', '#doneButton', function() {
+        // Check if at least one option has been added
+        if (optionCount === 0) {
+            alert("Please add at least one option before pressing 'Done'.");
+        } else {
+            // Optionally, perform final validation or actions before submitting all options
+            console.log("All options submitted");
+            
+            $("#optionsPreview").val('');
+            optionCount = 0;
+            // Hide the addOptionForm modal
+            $("#addOptionModal").modal("hide");
+            // Hide the Done button
+            $("#doneButton").hide();
+        }
     });
-
-
-
 });
 
 $(document).ready(function () {

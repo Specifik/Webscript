@@ -18,3 +18,7 @@ h1 {
 .form-check-label {
     margin-left: 5px;
 }
+
+.title, .date, .expiry-date {
+    width: 33%;
+}
