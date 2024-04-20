@@ -24,6 +24,9 @@ function displayAppointments(appointments) {
     var accordion = $("#accordion");
     accordion.empty();
 
+    var currentDate = new Date(); // Get the current date
+    console.log(currentDate);
+
     appointments.forEach(function (appointment) {
         var card = $("<div>").addClass("accordion-item");
         var header = $("<h2>").addClass("accordion-header").appendTo(card);
@@ -53,11 +56,27 @@ function displayAppointments(appointments) {
 
         var optionsDiv = $("<div>").appendTo(body); // Add a new div for the options
 
+        // Parse the expiry_date manually
+        var expiryDateParts = appointment.expiry_date.split(".");
+        var expiryDate = new Date(expiryDateParts[2], expiryDateParts[1] - 1, expiryDateParts[0]);
+        expiryDate.setHours(23, 59, 59, 999); // Set the time to the end of the day
+
+        // Check if the appointment is expired
+        var isExpired = expiryDate < currentDate;
+
+        if (isExpired) {
+            descriptionP.html("<strong style='color: red;'>This Appointment has expired!</strong>"); // Display "This Appointment has expired!" if the appointment is expired
+        } else {
+            descriptionP.html("<strong>Description: </strong>" + appointment.description); // Display the description if the appointment is not expired
+        }
+
         // Hinzufügen eines Klickereignisses für das Aufklappen des Akkordeons
         button.click(function () {
             // Schließen aller anderen geöffneten Akkordeons
             $(".accordion-collapse").collapse("hide");
+            if (!isExpired) {
             loadOptions(appointment.appointmentID, optionsDiv); // Übergabe des body-Elements
+            }
         });
 
         accordion.append(card);
@@ -173,6 +192,16 @@ $(document).ready(function () {
         var expiry_date = $("#expiry_date").val();
         var location = $("#location").val();
         var description = $("#description").val();
+
+        // Convert the date and expiry_date to Date objects for comparison
+        var dateObj = new Date(date);
+        var expiryDateObj = new Date(expiry_date);
+
+        // Check if the expiry date is before the normal date
+        if (expiryDateObj >= dateObj) {
+            alert("The expiry date must be before the normal date.");
+            return; // Exit the function to prevent the form from being submitted
+        }
 
         console.log("Sending AJAX request", title, date);
 

@@ -40,7 +40,10 @@ class DataHandler
             while ($row = $result->fetch_assoc()) {
                 $date = new DateTime($row["date"]);
                 $formattedDate = $date->format('d.m.Y');
-                $demodata[] = new Appointment($row["appointmentID"], $row["title"], $formattedDate, $row["expiry_date"], $row["location"], $row["description"]);
+
+                $expiry_date = new DateTime($row["expiry_date"]);
+                $formattedExpiryDate = $expiry_date->format('d.m.Y');
+                $demodata[] = new Appointment($row["appointmentID"], $row["title"], $formattedDate, $formattedExpiryDate, $row["location"], $row["description"]);
             }
         }   
 
