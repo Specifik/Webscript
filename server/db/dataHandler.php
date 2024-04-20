@@ -40,7 +40,7 @@ class DataHandler
             while ($row = $result->fetch_assoc()) {
                 $date = new DateTime($row["date"]);
                 $formattedDate = $date->format('d.m.Y');
-                $demodata[] = new Appointment($row["appointmentID"], $row["title"], $formattedDate, $row["expiry_date"]);
+                $demodata[] = new Appointment($row["appointmentID"], $row["title"], $formattedDate, $row["expiry_date"], $row["location"], $row["description"]);
             }
         }   
 
@@ -65,13 +65,13 @@ class DataHandler
         return $demodata;
     }
 
-    public function addAppointment($title, $date, $expiry_date)
+    public function addAppointment($title, $date, $expiry_date, $location, $description)
     {
         global $conn;
 
-        $sql = "INSERT INTO appointments (title, date, expiry_date) VALUES (?, ?, ?)";
+        $sql = "INSERT INTO appointments (title, date, expiry_date, location, description) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $title, $date, $expiry_date);
+        $stmt->bind_param("sssss", $title, $date, $expiry_date, $location, $description);
         $stmt->execute();
 
         // Get the ID of the newly inserted appointment

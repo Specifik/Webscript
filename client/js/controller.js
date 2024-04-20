@@ -36,7 +36,8 @@ function displayAppointments(appointments) {
                 "aria-expanded": "false",
                 "aria-controls": "collapse-" + appointment.appointmentID,
             })
-            .html("<div class='title'><strong>" + appointment.title + "</strong></div><div class='date'>Date: " + appointment.date + "</div><div class='expiry-date'>Expiry Date: " + appointment.expiry_date + "</div>")
+            .html("<div class='title'><strong>" + appointment.title + "</strong></div><div class='date'>Date: " + appointment.date + "</div><div class='expiry-date'>Expiry Date: " + appointment.expiry_date 
+            + "</div><div class='location'>Location: " + appointment.location + "</div>")
             .appendTo(header);
         var collapseDiv = $("<div>")
             .addClass("accordion-collapse collapse")
@@ -47,12 +48,16 @@ function displayAppointments(appointments) {
             .appendTo(card);
 
         var body = $("<div>").addClass("accordion-body").appendTo(collapseDiv);
+        var descriptionP = $("<p>").html("<strong>Description: </strong>" + appointment.description); // Create a <p> element for the description
+        body.append(descriptionP); // Add the description to the body
+
+        var optionsDiv = $("<div>").appendTo(body); // Add a new div for the options
 
         // Hinzufügen eines Klickereignisses für das Aufklappen des Akkordeons
         button.click(function () {
             // Schließen aller anderen geöffneten Akkordeons
             $(".accordion-collapse").collapse("hide");
-            loadOptions(appointment.appointmentID, body); // Übergabe des body-Elements
+            loadOptions(appointment.appointmentID, optionsDiv); // Übergabe des body-Elements
         });
 
         accordion.append(card);
@@ -60,6 +65,7 @@ function displayAppointments(appointments) {
 }
 
 function loadOptions(appointmentId, bodyElement) {
+
     $.ajax({
         type: "GET",
         url: "../../server/serviceHandler.php",
@@ -165,6 +171,8 @@ $(document).ready(function () {
         var title = $("#title").val();
         var date = $("#date").val();
         var expiry_date = $("#expiry_date").val();
+        var location = $("#location").val();
+        var description = $("#description").val();
 
         console.log("Sending AJAX request", title, date);
 
@@ -173,7 +181,7 @@ $(document).ready(function () {
             url: "../../server/serviceHandler.php",
             data: {
                 method: "addAppointment",
-                param: JSON.stringify({ title: title, date: date, expiry_date: expiry_date }),
+                param: JSON.stringify({ title: title, date: date, expiry_date: expiry_date, location: location, description: description }),
             },
             dataType: "json",
             success: function (response) {
@@ -185,7 +193,8 @@ $(document).ready(function () {
                 $("#title").val("");
                 $("#date").val("");
                 $("#expiry_date").val("");
-
+                $("#location").val("");
+                $("#description").val("");
 
                 // Show the addOptionForm in a modal
                 $("#addOptionModal").modal("show");
@@ -252,7 +261,7 @@ $(document).ready(function () {
         } else {
             // Optionally, perform final validation or actions before submitting all options
             console.log("All options submitted");
-            
+
             $("#optionsPreview").val('');
             optionCount = 0;
             // Hide the addOptionForm modal

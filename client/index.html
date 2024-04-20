@@ -7,7 +7,6 @@
             integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
             crossorigin="anonymous"
         ></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="js/controller.js" type="text/javascript"></script>
 
         <link rel="stylesheet" href="css/style.css" />
@@ -20,7 +19,7 @@
         />
     </head>
     <body>
-        <!-- TODO: Prüfen ob Appointment Expired / ExpiryDate muss vor Date /-->
+        <!-- TODO: Prüfen ob Appointment Expired / ExpiryDate muss vor Date sein / -->
 
         <div class="container">
             <h1>Appointment Finder</h1>
@@ -61,6 +60,14 @@
                                 <div class="form-group">
                                     <label for="expiry_date">Expiry Date:</label>
                                     <input type="date" id="expiry_date" name="expiry_date" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="location">Location:</label>
+                                    <input type="text" id="location" name="location" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Description:</label>
+                                    <textarea id="description" rows="6" cols="35" name="description" class="form-control" required></textarea>
                                 </div>
                             </form>
                         </div>
