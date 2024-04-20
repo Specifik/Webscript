@@ -65,13 +65,13 @@ class DataHandler
         return $demodata;
     }
 
-    public function addAppointment($title, $date)
+    public function addAppointment($title, $date, $expiry_date)
     {
         global $conn;
 
-        $sql = "INSERT INTO appointments (title, date) VALUES (?, ?)";
+        $sql = "INSERT INTO appointments (title, date, expiry_date) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ss", $title, $date);
+        $stmt->bind_param("sss", $title, $date, $expiry_date);
         $stmt->execute();
 
         // Get the ID of the newly inserted appointment

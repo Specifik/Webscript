@@ -26,7 +26,8 @@ class SimpleLogic
             case "addAppointment":
                 $title = $param['title'];
                 $date = $param['date'];
-                $res = $this->dh->addAppointment($title, $date);
+                $expiry_date = $param['expiry_date'];
+                $res = $this->dh->addAppointment($title, $date, $expiry_date);
                 break;
             case "addOption":   //TODO
                 $startTime = $param['startTime'];

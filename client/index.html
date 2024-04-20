@@ -19,6 +19,8 @@
         />
     </head>
     <body>
+        <!-- TODO: Prüfen ob Appointment Expired -->
+        
         <div class="container">
             <h1>Appointment Finder</h1>
         </div>
@@ -38,59 +40,36 @@
             <button id="addAppointmentButton" class="btn btn-primary">
                 New Appointment
             </button>
-            <form id="addAppointmentForm" style="display: none">
-                <div class="form-group">
-                    <label for="title">Title:</label>
-                    <input
-                        type="text"
-                        id="title"
-                        name="title"
-                        class="form-control"
-                    />
+            <div class="modal fade" id="addAppointmentModal" tabindex="-1" aria-labelledby="addAppointmentModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addAppointmentModalLabel">Add Appointment</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="addAppointmentForm">
+                                <div class="form-group">
+                                    <label for="title">Title:</label>
+                                    <input type="text" id="title" name="title" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="date">Date:</label>
+                                    <input type="date" id="date" name="date" class="form-control" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="expiry_date">Expiry Date:</label>
+                                    <input type="date" id="expiry_date" name="expiry_date" class="form-control" required />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" form="addAppointmentForm">Add Appointment</button>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="date">Date:</label>
-                    <input
-                        type="date"
-                        id="date"
-                        name="date"
-                        class="form-control"
-                    />
-                </div>
-                <button type="submit" class="btn btn-primary">
-                    Add Appointment
-                </button>
-            </form>
-            <form id="addOptionForm" style="display: none">
-                <div class="form-group">
-                    <label for="start">Start Time:</label>
-                    <input
-                        type="time"
-                        id="start"
-                        name="start"
-                        class="form-control"
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="end">End Time:</label>
-                    <input
-                        type="time"
-                        id="end"
-                        name="end"
-                        class="form-control"
-                    />
-                </div>
-                <button type="submit" class="btn btn-primary">
-                    Add Option
-                </button>
-            </form>
-            <button
-                id="doneButton"
-                style="display: none"
-                class="btn btn-success"
-            >
-                Done
-            </button>
+            </div>
         </div>
         <!-- Modal für die Optionen -->
         <div class="container">
@@ -133,6 +112,10 @@
                                         name="endTime"
                                         class="form-control"
                                     />
+                                </div>
+                                <div class="form-group">
+                                    <label for="optionsPreview">Options:</label>
+                                    <textarea id="optionsPreview" rows="6" cols="35" class="form-control" readonly></textarea>
                                 </div>
                                 <br />
                                 <button type="submit" class="btn btn-primary">

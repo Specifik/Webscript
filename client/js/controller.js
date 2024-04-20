@@ -36,7 +36,7 @@ function displayAppointments(appointments) {
                 "aria-expanded": "false",
                 "aria-controls": "collapse-" + appointment.appointmentID,
             })
-            .text(appointment.title + " - Date: " + appointment.date)
+            .text(appointment.title + " - Date: " + appointment.date + " Expiry-Date: " + appointment.expiry_date)
             .appendTo(header);
 
         var collapseDiv = $("<div>")
@@ -155,7 +155,8 @@ $(document).ready(function () {
 
     $("#addAppointmentButton").click(function () {
         console.log("Add Appointment button clicked");
-        $("#addAppointmentForm").show();
+        $("#addAppointmentModal").modal("show");
+
     });
 
     $("#addAppointmentForm").submit(function (event) {
@@ -164,6 +165,7 @@ $(document).ready(function () {
 
         var title = $("#title").val();
         var date = $("#date").val();
+        var expiry_date = $("#expiry_date").val();
 
         console.log("Sending AJAX request", title, date);
 
@@ -172,17 +174,19 @@ $(document).ready(function () {
             url: "../../server/serviceHandler.php",
             data: {
                 method: "addAppointment",
-                param: JSON.stringify({ title: title, date: date }),
+                param: JSON.stringify({ title: title, date: date, expiry_date: expiry_date }),
             },
             dataType: "json",
             success: function (response) {
                 console.log("AJAX request successful", response);
-                $("#addAppointmentForm").hide();
+                $("#addAppointmentModal").modal("hide");
                 loaddata();
 
                 // Reset the title and date inputs
                 $("#title").val("");
                 $("#date").val("");
+                $("#expiry_date").val("");
+
 
                 // Show the addOptionForm in a modal
                 $("#addOptionModal").modal("show");
@@ -194,8 +198,9 @@ $(document).ready(function () {
         });
     });
 
-    //TODO: Logik für Eingabe Zeit/Datum / Eingabe vom Ablaufdatum bei Appointments / Prüfen ob Appointment Expired/
-    $(document).on("submit", "#addOptionForm", function (event) {
+
+    var optionCount = 0; 
+    $(document).on('submit', '#addOptionForm', function(event) {
         event.preventDefault();
 
         var startTime = $("#startTime").val();
@@ -218,22 +223,26 @@ $(document).ready(function () {
                 }),
             },
             dataType: "json",
-            success: function (response) {
-                if (response.error) {
-                    // Wenn ein Fehler auftritt, könnten wir hier etwas damit machen
-                    console.log("Error:", response.error);
-                } else {
-                    // Erfolgreich hinzugefügt, daher leeren wir die Eingabefelder
-                    $("#startTime").val("");
-                    $("#endTime").val("");
-                }
+            success: function (response) { 
+                // Clear input fields for next option
+                $("#startTime").val('');
+                $("#endTime").val('');
+                // Update optionsPreview textarea
+                var optionsPreview = $("#optionsPreview");
+                var currentContent = optionsPreview.val();
+                optionCount += 1;
+                optionsPreview.val(currentContent + "\n" + "Option " + optionCount + ": Start Time: " + startTime + ", End Time: " + endTime); 
             },
             error: function (error) {
                 console.log(error);
             },
         });
     });
-
+    
+    $(document).on('click', '.btn-secondary', function(event) {
+        $("#optionsPreview").val('');
+        optionCount = 0;
+    });
     // Handler for "Done" button to submit all options
     $("#doneButton").click(function () {
         // Optionally, perform final validation or actions before submitting all options
@@ -243,6 +252,9 @@ $(document).ready(function () {
         // Hide the Done button
         $("#doneButton").hide();
     });
+
+
+
 });
 
 $(document).ready(function () {
