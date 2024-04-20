@@ -74,16 +74,14 @@ function displayAppointments(appointments) {
         button.click(function () {
             // Schließen aller anderen geöffneten Akkordeons
             $(".accordion-collapse").collapse("hide");
-            if (!isExpired) {
-            loadOptions(appointment.appointmentID, optionsDiv); // Übergabe des body-Elements
-            }
+            loadOptions(appointment.appointmentID, optionsDiv, isExpired); // Übergabe des body-Elements
         });
 
         accordion.append(card);
     });
 }
 
-function loadOptions(appointmentId, bodyElement) {
+function loadOptions(appointmentId, bodyElement, isExpired) {
 
     $.ajax({
         type: "GET",
@@ -92,7 +90,7 @@ function loadOptions(appointmentId, bodyElement) {
         data: { method: "queryOptions", param: appointmentId },
         dataType: "json",
         success: function (response) {
-            displayOptions(response, bodyElement); // Übergabe des body-Elements
+            displayOptions(response, bodyElement, isExpired); // Übergabe des body-Elements
         },
         error: function (error) {
             console.log(error);
@@ -100,7 +98,7 @@ function loadOptions(appointmentId, bodyElement) {
     });
 }
 
-function displayOptions(options, bodyElement) {
+function displayOptions(options, bodyElement, isExpired) {
     bodyElement.empty(); // Leeren des body-Elements, um die vorherigen Optionen zu entfernen
 
     options.forEach(function (option) {
@@ -135,6 +133,9 @@ function displayOptions(options, bodyElement) {
                 .attr("type", "radio")
                 .attr("name", "selectedOption")
                 .val(option.optionsID);
+            if (isExpired) {
+                radioInput.attr("disabled", "disabled");
+            }
             radioInput.appendTo(radioDiv);
             $("<label>")
                 .addClass("form-check-label")
@@ -150,19 +151,20 @@ function displayOptions(options, bodyElement) {
 
     });
 
-    // Eingabe für Name und Kommentar vor dem Submit-Button anzeigen
-    $("<label>").text("Name:").appendTo(bodyElement);
-    $("<input>")
-        .attr("type", "text")
-        .attr("name", "name")
-        .addClass("form-control")
-        .appendTo(bodyElement);
-    $("<label>").text("Comment:").appendTo(bodyElement);
-    $("<input>")
-        .attr("type", "text")
-        .attr("name", "comment")
-        .addClass("form-control")
-        .appendTo(bodyElement);
+        // Only display the input for name and comment if the appointment is not expired
+    if (!isExpired) {
+        $("<label>").text("Name:").appendTo(bodyElement);
+        $("<input>")
+            .attr("type", "text")
+            .attr("name", "name")
+            .addClass("form-control")
+            .appendTo(bodyElement);
+        $("<label>").text("Comment:").appendTo(bodyElement);
+        $("<input>")
+            .attr("type", "text")
+            .attr("name", "comment")
+            .addClass("form-control")
+            .appendTo(bodyElement);
 
     // Abstand zwischen Kommentar und Submit-Button
     $("<br>").appendTo(bodyElement);
@@ -172,6 +174,7 @@ function displayOptions(options, bodyElement) {
         .addClass("btn btn-primary")
         .text("Submit")
         .appendTo(bodyElement);
+    }
 }
 
 $(document).ready(function () {
