@@ -81,17 +81,31 @@ class DataHandler
         return array("appointmentID" => $appointmentID);
     }
 
-    public function addOption($startTime, $endTime, $FK_appointmentID) //TODO
+    public function addOption($startTime, $endTime, $FK_appointmentID)
     {
         global $conn;
 
+        // Überprüfen, ob eine Option mit der gleichen Start- und Endzeit bereits vorhanden ist
+        $sqlCheck = "SELECT * FROM options WHERE startTime = ? AND endTime = ? AND FK_appointmentID = ?";
+        $stmtCheck = $conn->prepare($sqlCheck);
+        $stmtCheck->bind_param("ssi", $startTime, $endTime, $FK_appointmentID);
+        $stmtCheck->execute();
+        $resultCheck = $stmtCheck->get_result();
+
+        if ($resultCheck->num_rows > 0) {
+            // Option mit dieser Kombination von Start- und Endzeit existiert bereits
+            return "Option is already available";
+        }
+
+        // Wenn nicht vorhanden, füge die Option ein
         $sql = "INSERT INTO options (startTime, endTime, FK_appointmentID) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssi", $startTime, $endTime, $FK_appointmentID);
         $stmt->execute();
 
-        return $conn->insert_id;
+        return "Option added successfully";
     }
+
 
     public function chooseOption($optionID, $username, $comment)
     {

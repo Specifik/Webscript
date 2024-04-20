@@ -194,16 +194,15 @@ $(document).ready(function () {
         });
     });
 
-
-    //TODO: Logik für Eingabe Zeit/Datum / Eingabe vom Ablaufdatum bei Appointments / Prüfen ob Appointment Expired/ 
-    $(document).on('submit', '#addOptionForm', function(event) {
+    //TODO: Logik für Eingabe Zeit/Datum / Eingabe vom Ablaufdatum bei Appointments / Prüfen ob Appointment Expired/
+    $(document).on("submit", "#addOptionForm", function (event) {
         event.preventDefault();
 
         var startTime = $("#startTime").val();
         var endTime = $("#endTime").val();
-        
+
         if (!startTime || !endTime) {
-            alert('Please fill in both the start time and end time.');
+            alert("Please fill in both the start time and end time.");
             return;
         }
 
@@ -220,9 +219,14 @@ $(document).ready(function () {
             },
             dataType: "json",
             success: function (response) {
-                // Clear input fields for next option
-                $("#startTime").val('');
-                $("#endTime").val('');
+                if (response.error) {
+                    // Wenn ein Fehler auftritt, könnten wir hier etwas damit machen
+                    console.log("Error:", response.error);
+                } else {
+                    // Erfolgreich hinzugefügt, daher leeren wir die Eingabefelder
+                    $("#startTime").val("");
+                    $("#endTime").val("");
+                }
             },
             error: function (error) {
                 console.log(error);
