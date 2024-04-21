@@ -19,6 +19,9 @@ h1 {
     margin-left: 5px;
 }
 
-.title, .date, .expiry-date, .location {
+.title,
+.date,
+.expiry-date,
+.location {
     width: 25%;
 }

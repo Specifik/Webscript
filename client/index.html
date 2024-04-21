@@ -1,113 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
-            crossorigin="anonymous"
-        ></script>
-        <script src="js/controller.js" type="text/javascript"></script>
+        <meta charset="UTF-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <title>Appointment-Finder</title>
 
-        <link rel="stylesheet" href="css/style.css" />
-
+        <!-- Bootstrap CSS -->
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
             crossorigin="anonymous"
         />
-        <title>Appointment-Finder</title>
+
+        <!-- Custom CSS -->
+        <link rel="stylesheet" href="css/style.css" />
+
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <!-- Bootstrap Bundle with Popper -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
+            crossorigin="anonymous"
+        ></script>
+
+        <!-- Custom JS -->
+        <script src="js/controller.js" type="text/javascript"></script>
     </head>
     <body>
-        <!-- TODO: Code Kommentieren / (mby function Appointment löschen machen) -->
+        <!-- Main Container -->
         <div class="container">
-            <h1>Appointment Finder</h1>
-        </div>
-        <div id="accordion" class="container">
-            <!-- Hier werden die Termine im Akkordion angezeigt -->
-        </div>
+            <h1 class="mt-5">Appointment Finder</h1>
 
-        <div id="searchResult">
-            <!-- Diese Struktur wird für die Optionen verwendet -->
-            <ul id="appointmentList"></ul>
-            <div id="optionsResult">
-                <ul id="optionsList" ></ul>
+            <!-- Accordion for Appointments -->
+            <div id="accordion" class="mt-4">
+                <!-- Here appointments will be displayed in an accordion -->
             </div>
-        </div>
 
-        <div class="container mt-5">
-            <button id="addAppointmentButton" class="btn btn-primary">
-                New Appointment
-            </button>
-            <div class="modal fade" id="addAppointmentModal" tabindex="-1" aria-labelledby="addAppointmentModalLabel" aria-hidden="true">
+            <!-- Search Results -->
+            <div id="searchResult" class="mt-4">
+                <!-- Structure for options -->
+                <ul id="appointmentList" class="list-group"></ul>
+                <div id="optionsResult" class="mt-3">
+                    <ul id="optionsList" class="list-group"></ul>
+                </div>
+            </div>
+
+            <!-- Button to Add New Appointment -->
+            <div class="d-grid gap-2 col-6 mx-auto mt-4">
+                <button
+                    id="addAppointmentButton"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addAppointmentModal"
+                >
+                    New Appointment
+                </button>
+            </div>
+
+            <!-- Add Appointment Modal -->
+            <div
+                class="modal fade"
+                id="addAppointmentModal"
+                tabindex="-1"
+                aria-labelledby="addAppointmentModalLabel"
+                aria-hidden="true"
+            >
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addAppointmentModalLabel">Add Appointment</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5
+                                class="modal-title"
+                                id="addAppointmentModalLabel"
+                            >
+                                Add Appointment
+                            </h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
                         </div>
                         <div class="modal-body">
                             <form id="addAppointmentForm">
-                                <div class="form-group">
-                                    <label for="title">Title:</label>
-                                    <input type="text" id="title" name="title" class="form-control" required />
+                                <div class="mb-3">
+                                    <label for="title" class="form-label"
+                                        >Title:</label
+                                    >
+                                    <input
+                                        type="text"
+                                        id="title"
+                                        name="title"
+                                        class="form-control"
+                                        required
+                                    />
                                 </div>
-                                <div class="form-group">
-                                    <label for="date">Date:</label>
-                                    <input type="date" id="date" name="date" class="form-control" required />
+                                <div class="mb-3">
+                                    <label for="date" class="form-label"
+                                        >Date:</label
+                                    >
+                                    <input
+                                        type="date"
+                                        id="date"
+                                        name="date"
+                                        class="form-control"
+                                        required
+                                    />
                                 </div>
-                                <div class="form-group">
-                                    <label for="expiry_date">Expiry Date:</label>
-                                    <input type="date" id="expiry_date" name="expiry_date" class="form-control" required />
+                                <div class="mb-3">
+                                    <label for="expiry_date" class="form-label"
+                                        >Expiry Date:</label
+                                    >
+                                    <input
+                                        type="date"
+                                        id="expiry_date"
+                                        name="expiry_date"
+                                        class="form-control"
+                                        required
+                                    />
                                 </div>
-                                <div class="form-group">
-                                    <label for="location">Location:</label>
-                                    <input type="text" id="location" name="location" class="form-control" required />
+                                <div class="mb-3">
+                                    <label for="location" class="form-label"
+                                        >Location:</label
+                                    >
+                                    <input
+                                        type="text"
+                                        id="location"
+                                        name="location"
+                                        class="form-control"
+                                        required
+                                    />
                                 </div>
-                                <div class="form-group">
-                                    <label for="description">Description:</label>
-                                    <textarea id="description" rows="6" cols="35" name="description" class="form-control" required></textarea>
+                                <div class="mb-3">
+                                    <label for="description" class="form-label"
+                                        >Description:</label
+                                    >
+                                    <textarea
+                                        id="description"
+                                        rows="6"
+                                        name="description"
+                                        class="form-control"
+                                        required
+                                    ></textarea>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary me-auto" form="addAppointmentForm">Add Appointment</button>
-                            <button type="button" class="btn btn-secondary" id="closebtn" data-bs-dismiss="modal">Close</button>
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                form="addAppointmentForm"
+                            >
+                                Add Appointment
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Close
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Modal für die Optionen -->
-        <div class="container">
-            <div class="modal fade" id="addOptionModal" tabindex="-1" aria-labelledby="addOptionModalLabel" aria-hidden="true">
+
+            <!-- Add Option Modal -->
+            <div
+                class="modal fade"
+                id="addOptionModal"
+                tabindex="-1"
+                aria-labelledby="addOptionModalLabel"
+                aria-hidden="true"
+            >
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="addOptionModalLabel">Add Option</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="addOptionModalLabel">
+                                Add Option
+                            </h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
                         </div>
                         <div class="modal-body">
                             <form id="addOptionForm">
-                                <div class="form-group">
-                                    <label for="startTime">Start Time:</label>
-                                    <input type="time" id="startTime" name="startTime" class="form-control" />
+                                <div class="mb-3">
+                                    <label for="startTime" class="form-label"
+                                        >Start Time:</label
+                                    >
+                                    <input
+                                        type="time"
+                                        id="startTime"
+                                        name="startTime"
+                                        class="form-control"
+                                    />
                                 </div>
-                                <div class="form-group">
-                                    <label for="endTime">End Time:</label>
-                                    <input type="time" id="endTime" name="endTime" class="form-control" />
+                                <div class="mb-3">
+                                    <label for="endTime" class="form-label"
+                                        >End Time:</label
+                                    >
+                                    <input
+                                        type="time"
+                                        id="endTime"
+                                        name="endTime"
+                                        class="form-control"
+                                    />
                                 </div>
-                                <div class="form-group">
-                                    <label for="optionsPreview">Options:</label>
-                                    <textarea id="optionsPreview" rows="6" cols="35" class="form-control" readonly></textarea>
+                                <div class="mb-3">
+                                    <label
+                                        for="optionsPreview"
+                                        class="form-label"
+                                        >Options:</label
+                                    >
+                                    <textarea
+                                        id="optionsPreview"
+                                        rows="6"
+                                        class="form-control"
+                                        readonly
+                                    ></textarea>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary" form="addOptionForm">Add Option</button>
-                            <button type="button" class="btn btn-secondary ms-auto" id="doneButton" >Done</button>
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                form="addOptionForm"
+                            >
+                                Add Option
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+                                Close
+                            </button>
                         </div>
                     </div>
                 </div>

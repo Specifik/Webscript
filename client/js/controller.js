@@ -30,7 +30,7 @@ function displayAppointments(appointments) {
         var card = $("<div>").addClass("accordion-item");
         var header = $("<h2>").addClass("accordion-header").appendTo(card);
         var button = $("<button>")
-        .addClass("accordion-button d-flex justify-content-between")
+            .addClass("accordion-button d-flex justify-content-between")
             .attr({
                 type: "button",
                 "data-bs-toggle": "collapse",
@@ -38,8 +38,17 @@ function displayAppointments(appointments) {
                 "aria-expanded": "false",
                 "aria-controls": "collapse-" + appointment.appointmentID,
             })
-            .html("<div class='title'><strong>" + appointment.title + "</strong></div><div class='date'>Date: " + appointment.date + "</div><div class='expiry-date'>Expiry Date: " + appointment.expiry_date 
-            + "</div><div class='location'>Location: " + appointment.location + "</div>")
+            .html(
+                "<div class='title'><strong>" +
+                    appointment.title +
+                    "</strong></div><div class='date'>Date: " +
+                    appointment.date +
+                    "</div><div class='expiry-date'>Expiry Date: " +
+                    appointment.expiry_date +
+                    "</div><div class='location'>Location: " +
+                    appointment.location +
+                    "</div>"
+            )
             .appendTo(header);
         var collapseDiv = $("<div>")
             .addClass("accordion-collapse collapse")
@@ -50,23 +59,33 @@ function displayAppointments(appointments) {
             .appendTo(card);
 
         var body = $("<div>").addClass("accordion-body").appendTo(collapseDiv);
-        var descriptionP = $("<p>").html("<strong>Description: </strong>" + appointment.description); // Create a <p> element for the description
+        var descriptionP = $("<p>").html(
+            "<strong>Description: </strong>" + appointment.description
+        ); // Create a <p> element for the description
         body.append(descriptionP); // Add the description to the body
 
         var optionsDiv = $("<div>").appendTo(body); // Add a new div for the options
 
         // Parse the expiry_date manually
         var expiryDateParts = appointment.expiry_date.split(".");
-        var expiryDate = new Date(expiryDateParts[2], expiryDateParts[1] - 1, expiryDateParts[0]);
+        var expiryDate = new Date(
+            expiryDateParts[2],
+            expiryDateParts[1] - 1,
+            expiryDateParts[0]
+        );
         expiryDate.setHours(23, 59, 59, 999); // Set the time to the end of the day
 
         // Check if the appointment is expired
         var isExpired = expiryDate < currentDate;
 
         if (isExpired) {
-            descriptionP.html("<strong style='color: red;'>This Appointment has expired!</strong>"); // Display "This Appointment has expired!" if the appointment is expired
+            descriptionP.html(
+                "<strong style='color: red;'>This Appointment has expired!</strong>"
+            ); // Display "This Appointment has expired!" if the appointment is expired
         } else {
-            descriptionP.html("<strong>Description: </strong>" + appointment.description); // Display the description if the appointment is not expired
+            descriptionP.html(
+                "<strong>Description: </strong>" + appointment.description
+            ); // Display the description if the appointment is not expired
         }
 
         // Hinzufügen eines Klickereignisses für das Aufklappen des Akkordeons
@@ -81,7 +100,6 @@ function displayAppointments(appointments) {
 }
 
 function loadOptions(appointmentId, bodyElement, isExpired) {
-
     $.ajax({
         type: "GET",
         url: "../../server/serviceHandler.php",
@@ -119,10 +137,10 @@ function displayOptions(options, bodyElement, isExpired) {
             $("<span>")
                 .text("Selected by: " + option.username)
                 .appendTo(optionDiv);
-        if(option.comment) {
-            $("<span>")
-                .text(" | Comment: " + option.comment)
-                .appendTo(optionDiv);
+            if (option.comment) {
+                $("<span>")
+                    .text(" | Comment: " + option.comment)
+                    .appendTo(optionDiv);
             }
         } else {
             // Wenn nicht, den Radiobutton anzeigen
@@ -147,10 +165,9 @@ function displayOptions(options, bodyElement, isExpired) {
         $("<hr>").appendTo(optionDiv);
 
         optionDiv.appendTo(bodyElement); // Anhängen der Optionen an das body-Element des entsprechenden Akkordeons
-
     });
 
-        // Only display the input for name and comment if the appointment is not expired
+    // Only display the input for name and comment if the appointment is not expired
     if (!isExpired) {
         $("<label>").text("Name:").appendTo(bodyElement);
         $("<input>")
@@ -165,16 +182,15 @@ function displayOptions(options, bodyElement, isExpired) {
             .addClass("form-control")
             .appendTo(bodyElement);
 
-    // Abstand zwischen Kommentar und Submit-Button
-    $("<br>").appendTo(bodyElement);
+        // Abstand zwischen Kommentar und Submit-Button
+        $("<br>").appendTo(bodyElement);
 
-    // Submit-Button
-    var submitButton = $("<button>")
-        .addClass("btn btn-primary")
-        .text("Submit")
-        .appendTo(bodyElement);
+        // Submit-Button
+        var submitButton = $("<button>")
+            .addClass("btn btn-primary")
+            .text("Submit")
+            .appendTo(bodyElement);
     }
-    
 }
 
 $(document).ready(function () {
@@ -182,7 +198,6 @@ $(document).ready(function () {
 
     $("#addAppointmentButton").click(function () {
         $("#addAppointmentModal").modal("show");
-
     });
 
     $("#addAppointmentForm").submit(function (event) {
@@ -210,7 +225,13 @@ $(document).ready(function () {
             cache: false,
             data: {
                 method: "addAppointment",
-                param: JSON.stringify({ title: title, date: date, expiry_date: expiry_date, location: location, description: description }),
+                param: JSON.stringify({
+                    title: title,
+                    date: date,
+                    expiry_date: expiry_date,
+                    location: location,
+                    description: description,
+                }),
             },
             dataType: "json",
             success: function (response) {
@@ -234,9 +255,8 @@ $(document).ready(function () {
         });
     });
 
-
-    var optionCount = 0; 
-    $(document).on('submit', '#addOptionForm', function(event) {
+    var optionCount = 0;
+    $(document).on("submit", "#addOptionForm", function (event) {
         event.preventDefault();
 
         var startTime = $("#startTime").val();
@@ -260,34 +280,42 @@ $(document).ready(function () {
                 }),
             },
             dataType: "json",
-            success: function (response) { 
+            success: function (response) {
                 // Check if the option was successfully added
-            if (response === "Option added successfully") {
+                if (response === "Option added successfully") {
                     // Clear input fields for next option
-                    $("#startTime").val('');
-                    $("#endTime").val('');
+                    $("#startTime").val("");
+                    $("#endTime").val("");
 
                     // Update optionsPreview textarea
                     var optionsPreview = $("#optionsPreview");
                     var currentContent = optionsPreview.val();
                     optionCount += 1;
-                    optionsPreview.val(currentContent + "\n" + "Option " + optionCount + ": Start Time: " + startTime + ", End Time: " + endTime);
-                } 
+                    optionsPreview.val(
+                        currentContent +
+                            "\n" +
+                            "Option " +
+                            optionCount +
+                            ": Start Time: " +
+                            startTime +
+                            ", End Time: " +
+                            endTime
+                    );
+                }
             },
             error: function (error) {
                 console.log(error);
             },
         });
     });
-    
 
     // Handler for "Done" button to submit all options
-    $(document).on('click', '#doneButton', function() {
+    $(document).on("click", "#doneButton", function () {
         // Check if at least one option has been added
         if (optionCount === 0) {
             alert("Please add at least one option before pressing 'Done'.");
         } else {
-            $("#optionsPreview").val('');
+            $("#optionsPreview").val("");
             optionCount = 0;
             // Hide the addOptionForm modal
             $("#addOptionModal").modal("hide");
