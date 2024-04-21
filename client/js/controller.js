@@ -25,7 +25,6 @@ function displayAppointments(appointments) {
     accordion.empty();
 
     var currentDate = new Date(); // Get the current date
-    console.log(currentDate);
 
     appointments.forEach(function (appointment) {
         var card = $("<div>").addClass("accordion-item");
@@ -181,13 +180,11 @@ $(document).ready(function () {
     loaddata();
 
     $("#addAppointmentButton").click(function () {
-        console.log("Add Appointment button clicked");
         $("#addAppointmentModal").modal("show");
 
     });
 
     $("#addAppointmentForm").submit(function (event) {
-        console.log("Add Appointment form submitted");
         event.preventDefault();
 
         var title = $("#title").val();
@@ -206,8 +203,6 @@ $(document).ready(function () {
             return; // Exit the function to prevent the form from being submitted
         }
 
-        console.log("Sending AJAX request", title, date);
-
         $.ajax({
             type: "POST",
             url: "../../server/serviceHandler.php",
@@ -217,7 +212,6 @@ $(document).ready(function () {
             },
             dataType: "json",
             success: function (response) {
-                console.log("AJAX request successful", response);
                 $("#addAppointmentModal").modal("hide");
                 loaddata();
 
@@ -275,7 +269,6 @@ $(document).ready(function () {
                     var currentContent = optionsPreview.val();
                     optionCount += 1;
                     optionsPreview.val(currentContent + "\n" + "Option " + optionCount + ": Start Time: " + startTime + ", End Time: " + endTime);
-                    console.log("Option added successfully");
                 } 
             },
             error: function (error) {
@@ -291,9 +284,6 @@ $(document).ready(function () {
         if (optionCount === 0) {
             alert("Please add at least one option before pressing 'Done'.");
         } else {
-            // Optionally, perform final validation or actions before submitting all options
-            console.log("All options submitted");
-
             $("#optionsPreview").val('');
             optionCount = 0;
             // Hide the addOptionForm modal
