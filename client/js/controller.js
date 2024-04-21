@@ -174,6 +174,7 @@ function displayOptions(options, bodyElement, isExpired) {
         .text("Submit")
         .appendTo(bodyElement);
     }
+    
 }
 
 $(document).ready(function () {
@@ -206,6 +207,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: "../../server/serviceHandler.php",
+            cache: false,
             data: {
                 method: "addAppointment",
                 param: JSON.stringify({ title: title, date: date, expiry_date: expiry_date, location: location, description: description }),
@@ -248,6 +250,7 @@ $(document).ready(function () {
         $.ajax({
             type: "POST",
             url: "../../server/serviceHandler.php",
+            cache: false,
             data: {
                 method: "addOption",
                 param: JSON.stringify({
@@ -329,6 +332,7 @@ function chooseOption(optionID, userName, userComment) {
     $.ajax({
         type: "POST",
         url: "../../server/serviceHandler.php",
+        cache: false,
         data: {
             method: "chooseOption",
             param: JSON.stringify({
@@ -347,6 +351,30 @@ function chooseOption(optionID, userName, userComment) {
         error: function (error) {
             console.log(error);
             alert("Failed to choose Option. Please try again.");
+        },
+    });
+}
+
+function deleteAppointment(appointmentId) {
+    $.ajax({
+        type: "POST",
+        url: "../../server/serviceHandler.php",
+        cache: false,
+        data: {
+            method: "deleteAppointment",
+            param: JSON.stringify({
+                appointmentID: appointmentId,
+            }),
+        },
+        dataType: "json",
+        success: function (response) {
+            // Erfolgreiche Antwort verarbeiten
+            alert("Appointment successfully deleted!");
+            loaddata();
+        },
+        error: function (error) {
+            console.log(error);
+            alert("Failed to delete Appointment. Please try again.");
         },
     });
 }
