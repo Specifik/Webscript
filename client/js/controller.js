@@ -1,7 +1,5 @@
-// client/js/controller.js
-
 $(document).ready(function () {
-    loaddata(); // Lade die Termine beim Seitenladen
+    loaddata();
 });
 
 function loaddata() {
@@ -24,7 +22,7 @@ function displayAppointments(appointments) {
     var accordion = $("#accordion");
     accordion.empty();
 
-    var currentDate = new Date(); // Get the current date
+    var currentDate = new Date();
 
     appointments.forEach(function (appointment) {
         var card = $("<div>").addClass("accordion-item");
@@ -61,38 +59,33 @@ function displayAppointments(appointments) {
         var body = $("<div>").addClass("accordion-body").appendTo(collapseDiv);
         var descriptionP = $("<p>").html(
             "<strong>Description: </strong>" + appointment.description
-        ); // Create a <p> element for the description
-        body.append(descriptionP); // Add the description to the body
+        );
+        body.append(descriptionP);
 
-        var optionsDiv = $("<div>").appendTo(body); // Add a new div for the options
+        var optionsDiv = $("<div>").appendTo(body);
 
-        // Parse the expiry_date manually
         var expiryDateParts = appointment.expiry_date.split(".");
         var expiryDate = new Date(
             expiryDateParts[2],
             expiryDateParts[1] - 1,
             expiryDateParts[0]
         );
-        expiryDate.setHours(23, 59, 59, 999); // Set the time to the end of the day
+        expiryDate.setHours(23, 59, 59, 999);
 
-        // Check if the appointment is expired
         var isExpired = expiryDate < currentDate;
 
         if (isExpired) {
             descriptionP.html(
                 "<strong style='color: red;'>This Appointment has expired!</strong>"
-            ); // Display "This Appointment has expired!" if the appointment is expired
+            );
         } else {
             descriptionP.html(
                 "<strong>Description: </strong>" + appointment.description
-            ); // Display the description if the appointment is not expired
+            );
         }
-
-        // Hinzufügen eines Klickereignisses für das Aufklappen des Akkordeons
         button.click(function () {
-            // Schließen aller anderen geöffneten Akkordeons
             $(".accordion-collapse").collapse("hide");
-            loadOptions(appointment.appointmentID, optionsDiv, isExpired); // Übergabe des body-Elements
+            loadOptions(appointment.appointmentID, optionsDiv, isExpired);
         });
 
         accordion.append(card);
@@ -107,7 +100,7 @@ function loadOptions(appointmentId, bodyElement, isExpired) {
         data: { method: "queryOptions", param: appointmentId },
         dataType: "json",
         success: function (response) {
-            displayOptions(response, bodyElement, isExpired); // Übergabe des body-Elements
+            displayOptions(response, bodyElement, isExpired);
         },
         error: function (error) {
             console.log(error);
@@ -116,12 +109,10 @@ function loadOptions(appointmentId, bodyElement, isExpired) {
 }
 
 function displayOptions(options, bodyElement, isExpired) {
-    bodyElement.empty(); // Leeren des body-Elements, um die vorherigen Optionen zu entfernen
+    bodyElement.empty();
 
     options.forEach(function (option) {
         var optionDiv = $("<div>").addClass("option");
-
-        // Startzeit und Endzeit
         var timeDiv = $("<div>").addClass("time-div");
         $("<span>")
             .text("Start Time: " + option.startTime)
@@ -131,9 +122,7 @@ function displayOptions(options, bodyElement, isExpired) {
             .appendTo(timeDiv);
         timeDiv.appendTo(optionDiv);
 
-        // Überprüfen, ob die Option bereits ausgewählt wurde
         if (option.username) {
-            // Wenn ja, den Namen und den Kommentar anzeigen
             $("<span>")
                 .text("Selected by: " + option.username)
                 .appendTo(optionDiv);
@@ -143,7 +132,6 @@ function displayOptions(options, bodyElement, isExpired) {
                     .appendTo(optionDiv);
             }
         } else {
-            // Wenn nicht, den Radiobutton anzeigen
             var radioDiv = $("<div>").addClass("select-option");
             var radioInput = $("<input>")
                 .addClass("form-check-input")
@@ -157,17 +145,13 @@ function displayOptions(options, bodyElement, isExpired) {
             $("<label>")
                 .addClass("form-check-label")
                 .text("Select")
-                .appendTo(radioDiv); // Label für den Radiobutton hinzufügen
+                .appendTo(radioDiv);
             radioDiv.appendTo(optionDiv);
         }
-
-        // Trennzeichen zwischen den Optionen hinzufügen
         $("<hr>").appendTo(optionDiv);
-
-        optionDiv.appendTo(bodyElement); // Anhängen der Optionen an das body-Element des entsprechenden Akkordeons
+        optionDiv.appendTo(bodyElement);
     });
 
-    // Only display the input for name and comment if the appointment is not expired
     if (!isExpired) {
         $("<label>").text("Name:").appendTo(bodyElement);
         $("<input>")
@@ -181,11 +165,8 @@ function displayOptions(options, bodyElement, isExpired) {
             .attr("name", "comment")
             .addClass("form-control")
             .appendTo(bodyElement);
-
-        // Abstand zwischen Kommentar und Submit-Button
         $("<br>").appendTo(bodyElement);
 
-        // Submit-Button
         var submitButton = $("<button>")
             .addClass("btn btn-primary")
             .text("Submit")
@@ -209,14 +190,12 @@ $(document).ready(function () {
         var location = $("#location").val();
         var description = $("#description").val();
 
-        // Convert the date and expiry_date to Date objects for comparison
         var dateObj = new Date(date);
         var expiryDateObj = new Date(expiry_date);
 
-        // Check if the expiry date is before the normal date
         if (expiryDateObj >= dateObj) {
             alert("The expiry date must be before the normal date.");
-            return; // Exit the function to prevent the form from being submitted
+            return;
         }
 
         $.ajax({
@@ -237,15 +216,11 @@ $(document).ready(function () {
             success: function (response) {
                 $("#addAppointmentModal").modal("hide");
                 loaddata();
-
-                // Reset the title and date inputs
                 $("#title").val("");
                 $("#date").val("");
                 $("#expiry_date").val("");
                 $("#location").val("");
                 $("#description").val("");
-
-                // Show the addOptionForm in a modal
                 $("#addOptionModal").modal("show");
                 currentAppointmentID = response.appointmentID;
             },
@@ -257,7 +232,7 @@ $(document).ready(function () {
 
     var optionCount = 0;
     $(document).on("submit", "#addOptionForm", function (event) {
-        event.preventDefault();
+        event.preventDefault(); // verhindert das Reload der Seite durch den Form
 
         var startTime = $("#startTime").val();
         var endTime = $("#endTime").val();
@@ -281,13 +256,9 @@ $(document).ready(function () {
             },
             dataType: "json",
             success: function (response) {
-                // Check if the option was successfully added
                 if (response === "Option added successfully") {
-                    // Clear input fields for next option
                     $("#startTime").val("");
                     $("#endTime").val("");
-
-                    // Update optionsPreview textarea
                     var optionsPreview = $("#optionsPreview");
                     var currentContent = optionsPreview.val();
                     optionCount += 1;
@@ -308,27 +279,21 @@ $(document).ready(function () {
             },
         });
     });
-
-    // Handler for "Done" button to submit all options
     $(document).on("click", "#doneButton", function () {
-        // Check if at least one option has been added
         if (optionCount === 0) {
             alert("Please add at least one option before pressing 'Done'.");
         } else {
             $("#optionsPreview").val("");
             optionCount = 0;
-            // Hide the addOptionForm modal
             $("#addOptionModal").modal("hide");
-            // Hide the Done button
             $("#doneButton").hide();
         }
     });
 });
 
+// Button Verhalten bei Option Auswahl
 $(document).ready(function () {
     loaddata();
-
-    // Klickereignis für den Submit-Button
     $("#accordion").on("click", ".btn-primary", function () {
         var bodyElement = $(this)
             .closest(".accordion-item")
@@ -339,19 +304,15 @@ $(document).ready(function () {
         var userName = bodyElement.find("input[name='name']").val();
         var userComment = bodyElement.find("input[name='comment']").val();
 
-        // Wenn keine Option ausgewählt wurde
         if (!selectedOption) {
             alert("Please select an option.");
-            return; // Beenden Sie die Funktion, um zu verhindern, dass das Formular abgesendet wird
+            return;
         }
 
-        // Wenn der Benutzername nicht eingegeben wurde
         if (!userName) {
             alert("Please enter your name.");
-            return; // Beenden Sie die Funktion, um zu verhindern, dass das Formular abgesendet wird
+            return;
         }
-
-        // Daten an den Server senden
         chooseOption(selectedOption, userName, userComment);
     });
 });
@@ -371,38 +332,12 @@ function chooseOption(optionID, userName, userComment) {
         },
         dataType: "json",
         success: function (response) {
-            // Erfolgreiche Antwort verarbeiten
             alert("Appointment successfully choosen!");
-            // Seite neu laden
             location.reload();
         },
         error: function (error) {
             console.log(error);
             alert("Failed to choose Option. Please try again.");
-        },
-    });
-}
-
-function deleteAppointment(appointmentId) {
-    $.ajax({
-        type: "POST",
-        url: "../../server/serviceHandler.php",
-        cache: false,
-        data: {
-            method: "deleteAppointment",
-            param: JSON.stringify({
-                appointmentID: appointmentId,
-            }),
-        },
-        dataType: "json",
-        success: function (response) {
-            // Erfolgreiche Antwort verarbeiten
-            alert("Appointment successfully deleted!");
-            loaddata();
-        },
-        error: function (error) {
-            console.log(error);
-            alert("Failed to delete Appointment. Please try again.");
         },
     });
 }

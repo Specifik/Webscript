@@ -7,29 +7,20 @@
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
         <title>Appointment-Finder</title>
-
-        <!-- Bootstrap CSS -->
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
             crossorigin="anonymous"
         />
-
-        <!-- Custom CSS -->
         <link rel="stylesheet" href="css/style.css" />
-
-        <!-- jQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-        <!-- Bootstrap Bundle with Popper -->
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW"
             crossorigin="anonymous"
         ></script>
 
-        <!-- Custom JS -->
         <script src="js/controller.js" type="text/javascript"></script>
     </head>
     <body>
@@ -37,21 +28,16 @@
         <div class="container">
             <h1 class="mt-5">Appointment Finder</h1>
 
-            <!-- Accordion for Appointments -->
-            <div id="accordion" class="mt-4">
-                <!-- Here appointments will be displayed in an accordion -->
-            </div>
+            <!-- Accordion für Appointments -->
+            <div id="accordion" class="mt-4"></div>
 
             <!-- Search Results -->
             <div id="searchResult" class="mt-4">
-                <!-- Structure for options -->
                 <ul id="appointmentList" class="list-group"></ul>
                 <div id="optionsResult" class="mt-3">
                     <ul id="optionsList" class="list-group"></ul>
                 </div>
             </div>
-
-            <!-- Button to Add New Appointment -->
             <div class="d-grid gap-2 col-6 mx-auto mt-4">
                 <button
                     id="addAppointmentButton"
@@ -154,7 +140,7 @@
                         <div class="modal-footer">
                             <button
                                 type="submit"
-                                class="btn btn-primary"
+                                class="btn btn-primary me-auto"
                                 form="addAppointmentForm"
                             >
                                 Add Appointment
@@ -241,10 +227,11 @@
                             </button>
                             <button
                                 type="button"
-                                class="btn btn-secondary"
+                                id="doneButton"
+                                class="btn btn-secondary ms-auto"
                                 data-bs-dismiss="modal"
                             >
-                                Close
+                                Done
                             </button>
                         </div>
                     </div>

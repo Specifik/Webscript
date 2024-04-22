@@ -26,9 +26,6 @@ class DataHandler
         }
         return $result;
     }
-
-    
-
     private function getAppointments()
     {
         global $conn;
@@ -77,10 +74,8 @@ class DataHandler
         $stmt->bind_param("sssss", $title, $date, $expiry_date, $location, $description);
         $stmt->execute();
 
-        // Get the ID of the newly inserted appointment
         $appointmentID = $conn->insert_id;
 
-        // Return the appointmentID in the response
         return array("appointmentID" => $appointmentID);
     }
 
@@ -88,7 +83,6 @@ class DataHandler
     {
         global $conn;
 
-        // Überprüfen, ob eine Option mit der gleichen Start- und Endzeit bereits vorhanden ist
         $sqlCheck = "SELECT * FROM options WHERE startTime = ? AND endTime = ? AND FK_appointmentID = ?";
         $stmtCheck = $conn->prepare($sqlCheck);
         $stmtCheck->bind_param("ssi", $startTime, $endTime, $FK_appointmentID);
@@ -96,11 +90,9 @@ class DataHandler
         $resultCheck = $stmtCheck->get_result();
 
         if ($resultCheck->num_rows > 0) {
-            // Option mit dieser Kombination von Start- und Endzeit existiert bereits
             return "Option is already available";
         }
 
-        // Wenn nicht vorhanden, füge die Option ein
         $sql = "INSERT INTO options (startTime, endTime, FK_appointmentID) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("ssi", $startTime, $endTime, $FK_appointmentID);
@@ -108,8 +100,6 @@ class DataHandler
 
         return "Option added successfully";
     }
-
-
     public function chooseOption($optionID, $username, $comment)
     {
         global $conn;
@@ -119,7 +109,6 @@ class DataHandler
         $stmt->bind_param("ssi", $username, $comment, $optionID);
         $stmt->execute();
 
-        // Überprüfen, ob das Update erfolgreich war
         if ($stmt->affected_rows > 0) {
             return "Option chosen successfully.";
         } else {
